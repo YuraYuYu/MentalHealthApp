@@ -10,24 +10,42 @@
     @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table">
-    <tr>
-        <th>Psychologist</th>
-        <th>User</th>
-        <th>Date</th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
+    <thead>
         <tr>
-            <td>@item.Psychologist.FirstName @item.Psychologist.LastName</td>
-            <td>@item.User.Email</td>
-            <td>@item.AppointmentDate</td>
-            <td>
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-            </td>
+            <th>Psychologist</th>
+            <th>Appointment Date</th>
+            <th>Actions</th>
         </tr>
-    }
-
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Psychologist.FirstName @item.Psychologist.LastName</td>
+                <td>@item.AppointmentDate</td>
+                <td>
+                    @if (item.CanRate)
+                    {
+                        using (Html.BeginForm("Rate", "Appointments"))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.Hidden("appointmentId", item.Id)
+                    <div class="form-group">
+                        @Html.Label("Score")
+                        @Html.TextBox("score", null, new { @class = "form-control", type = "number", min = "0", max = "5", step = "0.1", @oninvalid = "this.setCustomValidity('The score must be between 0 and 5, with a maximum of one decimal place.')", @oninput = "this.setCustomValidity('')" })
+                    </div>
+                            <button type="submit" class="btn btn-primary">Submit Rating</button>
+                        }
+                    }
+                    else if (item.RatingScore.HasValue)
+                    {
+                        <span>Rated: @item.RatingScore</span>
+                    }
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>

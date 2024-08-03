@@ -82,8 +82,38 @@ namespace MentalHealthApp.Controllers
                 .Where(a => a.UserId == userId)
                 .ToList();
 
+
+
             ViewBag.Appointments = appointments;
             return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Rate(int appointmentId, double score)
+        {
+            if (score < 0 || score > 5)
+            {
+                ModelState.AddModelError("score", "The score must be between 0 and 5.");
+                return RedirectToAction("Index", "Manage");
+            }
+
+            var appointment = db.Appointments.Find(appointmentId);
+            if (appointment == null || !appointment.CanRate)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            appointment.RatingScore = score;
+            db.SaveChanges();
+
+            var psychologist = db.Psychologists.Find(appointment.PsychologistId);
+            psychologist.AverageRating = db.Appointments
+                .Where(a => a.PsychologistId == psychologist.Id && a.RatingScore.HasValue)
+                .Average(a => (double?)a.RatingScore) ?? 0.0;
+            db.SaveChanges();
+
+            return RedirectToAction("Index", "Manage");
         }
 
         //

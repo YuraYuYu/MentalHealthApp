@@ -18,10 +18,20 @@ namespace MentalHealthApp.Controllers
         // GET: Psychologists
         public ActionResult Index()
         {
-            var isAdmin = User.IsInRole("Admin");
-            ViewBag.IsAdmin = isAdmin;
-            return View(db.Psychologists.ToList());
+            ViewBag.IsAdmin = User.IsInRole("Admin");
+            var psychologists = db.Psychologists.ToList();
+            foreach (var psychologist in psychologists)
+            {
+                var averageRating = db.Appointments
+                    .Where(a => a.PsychologistId == psychologist.Id && a.RatingScore.HasValue)
+                    .Average(a => (double?)a.RatingScore) ?? 0.0;
+                psychologist.AverageRating = averageRating;
+            }
+
+            return View(psychologists);
         }
+
+
 
         // GET: Psychologists/Details/5
         public ActionResult Details(int? id)
@@ -35,6 +45,10 @@ namespace MentalHealthApp.Controllers
             {
                 return HttpNotFound();
             }
+            var averageRating = db.Ratings
+                                  .Where(r => r.PsychologistId == id)
+                                  .Average(r => (int?)r.Score) ?? 0;
+            ViewBag.AverageRating = averageRating == 0 ? "No ratings" : averageRating.ToString("0.0");
             return View(psychologist);
         }
 

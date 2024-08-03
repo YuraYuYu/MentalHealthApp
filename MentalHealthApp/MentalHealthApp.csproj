@@ -225,9 +225,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202408021616324_UpdateDatabaseSchema.cs" />
-    <Compile Include="Migrations\202408021616324_UpdateDatabaseSchema.Designer.cs">
-      <DependentUpon>202408021616324_UpdateDatabaseSchema.cs</DependentUpon>
+    <Compile Include="Migrations\202408031639038_InitialCreate.cs" />
+    <Compile Include="Migrations\202408031639038_InitialCreate.Designer.cs">
+      <DependentUpon>202408031639038_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202408031640131_UpdateDatabaseSchema.cs" />
+    <Compile Include="Migrations\202408031640131_UpdateDatabaseSchema.Designer.cs">
+      <DependentUpon>202408031640131_UpdateDatabaseSchema.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -236,6 +240,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Psychologist.cs" />
+    <Compile Include="Models\Rating.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -354,8 +359,11 @@
     <Content Include="Scripts\bootstrap.bundle.js.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202408021616324_UpdateDatabaseSchema.resx">
-      <DependentUpon>202408021616324_UpdateDatabaseSchema.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202408031639038_InitialCreate.resx">
+      <DependentUpon>202408031639038_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202408031640131_UpdateDatabaseSchema.resx">
+      <DependentUpon>202408031640131_UpdateDatabaseSchema.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

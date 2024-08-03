@@ -27,5 +27,12 @@ namespace MentalHealthApp.Models
         [Required]
         public DateTime AppointmentDate { get; set; }
 
+        public bool CanRate => AppointmentDate < DateTime.Now && !RatingScore.HasValue;
+        public bool HasRated => RatingScore.HasValue;
+
+        [Range(0, 5)]
+        public double? RatingScore { get; set; }
+
+
     }
 }

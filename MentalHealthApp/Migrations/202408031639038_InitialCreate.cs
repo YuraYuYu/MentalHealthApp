@@ -3,16 +3,16 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class UpdateDatabaseSchema : DbMigration
+    public partial class InitialCreate : DbMigration
     {
         public override void Up()
         {
-            AddColumn("dbo.Psychologists", "Photo", c => c.String());
+            AlterColumn("dbo.Appointments", "RatingScore", c => c.Double());
         }
         
         public override void Down()
         {
-            DropColumn("dbo.Psychologists", "Photo");
+            AlterColumn("dbo.Appointments", "RatingScore", c => c.Int());
         }
     }
 }

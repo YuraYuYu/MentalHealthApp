@@ -21,6 +21,8 @@ namespace MentalHealthApp.Models
     {
         public DbSet<Psychologist> Psychologists { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
+        public DbSet<Rating> Ratings { get; set; }
+
         public ApplicationDbContext() : base("DefaultConnection", throwIfV1Schema: false) { }
 
         public static ApplicationDbContext Create()

@@ -13,7 +13,7 @@ namespace MentalHealthApp.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202408021616324_UpdateDatabaseSchema"; }
+            get { return "202408031640131_UpdateDatabaseSchema"; }
         }
         
         string IMigrationMetadata.Source

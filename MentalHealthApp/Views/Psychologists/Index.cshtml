@@ -33,7 +33,7 @@
                     @Html.DisplayNameFor(model => model.Specialization)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Rating)
+                    @Html.DisplayNameFor(model => model.AverageRating)
                 </th>
                 <th>
                     Actions
@@ -58,7 +58,17 @@
                         @Html.DisplayFor(modelItem => item.Specialization)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Rating)
+                        @{
+                            var averageRating = item.AverageRating;
+                            if (averageRating == 0)
+                            {
+                                <text>No Ratings</text>
+                            }
+                            else
+                            {
+                                <text>@averageRating</text>
+                            }
+                        }
                     </td>
                     <td>
                         @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
@@ -83,7 +93,7 @@ else
                     <div class="col-md-9">
                         <h4>@item.FirstName @item.LastName</h4>
                         <p>@item.Specialization</p>
-                        <p>Rating: @item.Rating</p>
+                        <p>Rating: @item.AverageRating</p>
                         <a href="@Url.Action("Create", "Appointments", new { psychologistId = item.Id })" class="btn btn-primary">Book</a>
                     </div>
                 </div>
