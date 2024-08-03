@@ -1,9 +1,42 @@
 ﻿@{
     ViewBag.Title = "About";
 }
-<main aria-labelledby="title">
-    <h2 id="title">@ViewBag.Title.</h2>
-    <h3>@ViewBag.Message</h3>
+<div class="knowledge-park-banner">
+    <img src="~/uploads/20240803211250.jpg" alt="Knowledge Park Banner" class="knowledge-park-image" />
+</div>
 
-    <p>Use this area to provide additional information.</p>
-</main>
+<div class="container">
+    <h1>Activity Center</h1>
+    <p>Learn how to work with various mental health resources, from understanding different psychological conditions to exploring effective coping mechanisms. These resources will help you navigate your mental health journey while mastering self-care techniques.</p>
+
+    <h2>Latest Articles</h2>
+    <div class="latest-article">
+        <div class="row">
+            <div class="col-md-4">
+                <img src="~/uploads/20240803203405.jpg" alt="Latest Article Image" class="article-image" />
+            </div>
+            <div class="col-md-8">
+                <h3>@Html.ActionLink("How to Manage Stress Effectively", "Details", "Articles", new { id = 1 }, null)</h3>
+                <p>Managing stress is crucial for maintaining good mental health. Discover effective strategies to cope with stress in your daily life.</p>
+                <p><span class="badge bg-primary">MENTAL HEALTH TIPS</span> <span class="text-muted">4 months ago</span></p>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="latest-article">
+        <div class="row">
+            <div class="col-md-4">
+                <img src="~/uploads/20240803203405.jpg" alt="Latest Article Image" class="article-image" />
+            </div>
+            <div class="col-md-8">
+                <h3>@Html.ActionLink("Understanding Anxiety Disorders", "Details", "Articles", new { id = 2 }, null)</h3>
+                <p>Anxiety disorders are common mental health conditions. Learn about the different types of anxiety disorders and their treatments.</p>
+                <p><span class="badge bg-primary">MENTAL HEALTH AWARENESS</span> <span class="text-muted">3 months ago</span></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/Scripts/custom.js"></script>
+}

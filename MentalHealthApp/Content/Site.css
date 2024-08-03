@@ -1,4 +1,27 @@
-﻿/* Set padding to keep content from hitting the edges */
+﻿/* Custom style for the navbar background color */
+.navbar-custom {
+    background-color: #4F89C7; /* 钴蓝加白 */
+}
+
+body {
+    background-color: #C1DEF2;
+}
+
+nav ul#menu li a {
+    color: white; /* 设置导航链接的文字颜色为白色 */
+}
+
+nav ul#menu li a:hover {
+    background-color: #3b70a3; /* 设置导航链接悬停时的背景颜色（可选） */
+}
+
+.navbar-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Set padding to keep content from hitting the edges */
 .body-content {
     margin-top: 15px;
     padding-left: 15px;
@@ -19,7 +42,78 @@ textarea {
     max-width: 280px;
 }
 
-/* Custom style for the navbar background color */
-.navbar-custom {
-    background-color: #ADD8E6; /* 浅蓝色 */
+.homepage-image {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: block;
+    box-shadow: 0 0 15px 5px rgba(0, 0, 0, 0.1); /* 这将创建一个柔和的阴影效果 */
+    border-radius: 15px; /* 这将使边缘稍微圆润 */
+}
+
+/* Custom style for knowledge park image */
+.knowledge-park-image {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto 30px;
+    display: block;
+    box-shadow: 0 0 15px 5px rgba(0, 0, 0, 0.1); /* 柔和的阴影效果 */
+    border-radius: 15px; /* 边缘稍微圆润 */
+    filter: blur(1px); /* 羽化效果 */
+    transition: filter 0.3s ease-in-out;
+}
+
+    .knowledge-park-image:hover {
+        filter: blur(0); /* 鼠标悬停时取消羽化效果 */
+    }
+
+/* Custom style for article image */
+.article-image {
+    width: 100%;
+    max-width: 300px;
+    display: block;
+    border-radius: 10px; /* 边缘稍微圆润 */
+}
+
+/* Container and text styles */
+.container {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.latest-article {
+    margin-bottom: 20px;
+}
+
+.container1 {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+@media (min-width: 576px) {
+    .container1 {
+        max-width: 540px;
+    }
+}
+
+@media (min-width: 768px) {
+    .container1 {
+        max-width: 720px;
+    }
+}
+
+@media (min-width: 992px) {
+    .container1 {
+        max-width: 960px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container1 {
+        max-width: 1140px;
+    }
 }
