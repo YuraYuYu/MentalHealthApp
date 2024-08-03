@@ -178,7 +178,7 @@ namespace MentalHealthApp.Controllers
             Appointment appointment = db.Appointments.Find(id);
             db.Appointments.Remove(appointment);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Manage");
         }
 
 

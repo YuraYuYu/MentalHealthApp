@@ -51,13 +51,18 @@
         <div class="form-group">
             @Html.Label("Photo", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <select name="Photo" class="form-control">
-                    <option value="">Select a photo</option>
+                <div id="photoOptions" class="photo-options">
                     @foreach (var img in ViewBag.Images)
                     {
-                        <option value="@("/Content/Images/" + img)">@img</option>
+                        <div class="photo-option">
+                            <input type="radio" id="photo_@(img)" name="Photo" value="@("/Content/Images/" + img)" />
+                            <label for="photo_@(img)">
+                                <img src="@("/Content/Images/" + img)" alt="@(img)" class="img-thumbnail" style="max-width:100px; max-height:100px;" />
+                            </label>
+                        </div>
                     }
-                </select>
+                </div>
+                <img id="photoPreview" src="" alt="Photo Preview" style="display:none; margin-top:10px; max-width:200px;" />
             </div>
         </div>
 
@@ -74,16 +79,49 @@
 </div>
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
-        document.getElementById('photoInput').addEventListener('change', function (event) {
-            var reader = new FileReader();
-            reader.onload = function () {
-                var output = document.getElementById('photoPreview');
-                output.src = reader.result;
-                output.style.display = 'block';
-            };
-            reader.readAsDataURL(event.target.files[0]);
+        document.addEventListener("DOMContentLoaded", function () {
+            var photoOptions = document.getElementsByName("Photo");
+            for (var i = 0; i < photoOptions.length; i++) {
+                photoOptions[i].addEventListener("change", function () {
+                    var selectedOption = this.value;
+                    var img = document.getElementById('photoPreview');
+                    if (selectedOption) {
+                        img.src = selectedOption;
+                        img.style.display = 'block';
+                    } else {
+                        img.src = '';
+                        img.style.display = 'none';
+                    }
+                });
+            }
         });
     </script>
+    <style>
+        .photo-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .photo-option {
+            display: inline-block;
+        }
+
+            .photo-option input {
+                display: none;
+            }
+
+            .photo-option label {
+                cursor: pointer;
+            }
+
+            .photo-option img {
+                border: 2px solid transparent;
+            }
+
+            .photo-option input:checked + label img {
+                border: 2px solid #007bff;
+            }
+    </style>
 }

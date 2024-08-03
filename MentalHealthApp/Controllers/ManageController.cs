@@ -7,6 +7,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using MentalHealthApp.Models;
+using System.Data.Entity;
+using System.Net;
 
 namespace MentalHealthApp.Controllers
 {
@@ -15,6 +17,7 @@ namespace MentalHealthApp.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         public ManageController()
         {
@@ -72,6 +75,14 @@ namespace MentalHealthApp.Controllers
                 Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
             };
+
+            // 获取当前用户的预约记录
+            var appointments = db.Appointments
+                .Include(a => a.Psychologist)
+                .Where(a => a.UserId == userId)
+                .ToList();
+
+            ViewBag.Appointments = appointments;
             return View(model);
         }
 
@@ -320,6 +331,80 @@ namespace MentalHealthApp.Controllers
             }
             var result = await UserManager.AddLoginAsync(User.Identity.GetUserId(), loginInfo.Login);
             return result.Succeeded ? RedirectToAction("ManageLogins") : RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
+        }
+
+        // GET: Appointments/Edit/5
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var appointment = db.Appointments.Find(id);
+            if (appointment == null)
+            {
+                return HttpNotFound();
+            }
+            var model = new AppointmentViewModel
+            {
+                Id = appointment.Id,
+                PsychologistId = appointment.PsychologistId,
+                UserId = appointment.UserId,
+                AppointmentDate = appointment.AppointmentDate,
+                Psychologists = new SelectList(db.Psychologists, "Id", "FullName", appointment.PsychologistId),
+                Users = new SelectList(db.Users, "Id", "Email", appointment.UserId)
+            };
+            return View(model);
+        }
+
+        // POST: Appointments/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(AppointmentViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var appointment = db.Appointments.Find(model.Id);
+                if (appointment == null)
+                {
+                    return HttpNotFound();
+                }
+                appointment.PsychologistId = model.PsychologistId;
+                appointment.UserId = model.UserId;
+                appointment.AppointmentDate = model.AppointmentDate;
+                db.Entry(appointment).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            model.Psychologists = new SelectList(db.Psychologists, "Id", "FullName", model.PsychologistId);
+            model.Users = new SelectList(db.Users, "Id", "Email", model.UserId);
+            return View(model);
+        }
+
+        // GET: Appointments/Delete/5
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Appointment appointment = db.Appointments.Find(id);
+            if (appointment == null)
+            {
+                return HttpNotFound();
+            }
+            return View(appointment);
+        }
+
+        // POST: Appointments/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            Appointment appointment = db.Appointments.Find(id);
+            db.Appointments.Remove(appointment);
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)

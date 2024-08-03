@@ -39,33 +39,34 @@
                     Actions
                 </th>
             </tr>
-        <</thead>>
+            <
+        </thead>>
         <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    <img src="@item.Photo" alt="Psychologist Photo" style="width:100px;height:auto;" />
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FirstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LastName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Specialization)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Rating)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                </td>
-            </tr>
-        }
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <img src="@item.Photo" alt="Psychologist Photo" style="width:100px;height:auto;" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Specialization)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Rating)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
 }
@@ -77,7 +78,7 @@ else
             <div class="list-group-item">
                 <div class="row">
                     <div class="col-md-3">
-                        <img src="~/uploads/@item.Photo" alt="Psychologist Photo" class="img-thumbnail" />
+                        <img src="@Url.Content(item.Photo)" alt="Psychologist Photo" class="img-thumbnail" />
                     </div>
                     <div class="col-md-9">
                         <h4>@item.FirstName @item.LastName</h4>
