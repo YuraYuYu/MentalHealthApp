@@ -1,0 +1,26 @@
+﻿@model MentalHealthApp.Models.Appointment
+
+@{
+    ViewBag.Title = "Appointment Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Appointment</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Psychologist</dt>
+        <dd>@Model.Psychologist.FirstName @Model.Psychologist.LastName</dd>
+
+        <dt>User</dt>
+        <dd>@Model.User.Email</dd>
+
+        <dt>Date</dt>
+        <dd>@Model.AppointmentDate</dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

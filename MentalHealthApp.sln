@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35122.118
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MentalHealthApp", "MentalHealthApp\MentalHealthApp.csproj", "{92D6BA15-EDB8-4FCB-9791-653C9FC10B4C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MentalHealthApp.Tests", "MentalHealthApp.Tests\MentalHealthApp.Tests.csproj", "{C4A16D11-46AC-4724-BFB0-346BAF93F8AB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{92D6BA15-EDB8-4FCB-9791-653C9FC10B4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92D6BA15-EDB8-4FCB-9791-653C9FC10B4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92D6BA15-EDB8-4FCB-9791-653C9FC10B4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92D6BA15-EDB8-4FCB-9791-653C9FC10B4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4A16D11-46AC-4724-BFB0-346BAF93F8AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4A16D11-46AC-4724-BFB0-346BAF93F8AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4A16D11-46AC-4724-BFB0-346BAF93F8AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4A16D11-46AC-4724-BFB0-346BAF93F8AB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BA1B0C8D-693A-4FBA-B49E-9BD95385096A}
+	EndGlobalSection
+EndGlobal

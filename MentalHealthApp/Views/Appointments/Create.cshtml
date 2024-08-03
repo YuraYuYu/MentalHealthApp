@@ -1,0 +1,142 @@
+﻿@model MentalHealthApp.Models.AppointmentViewModel
+
+@{
+    ViewBag.Title = "Create Appointment";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h4>Appointment</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.PsychologistId, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.PsychologistId, Model.Psychologists, "Select Psychologist", new { @class = "form-control", id = "psychologistDropdown" })
+            @Html.ValidationMessageFor(model => model.PsychologistId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    @Html.HiddenFor(model => model.UserId)
+
+    <div class="form-group">
+        <label class="control-label col-md-2">User</label>
+        <div class="col-md-10">
+            <input type="text" class="form-control" value="@User.Identity.Name" readonly />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="hidden" id="appointmentDate" name="AppointmentDate" />
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        @for (int i = 0; i < 7; i++)
+                        {
+                            <th>@DateTime.Today.AddDays(i).ToString("MM/dd/yyyy")</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        @for (int i = 0; i < 7; i++)
+                        {
+                            <td class="time-slot" data-time="09:00 - 11:00" data-date="@DateTime.Today.AddDays(i).ToString("yyyy-MM-dd")">09:00 - 11:00</td>
+                        }
+                    </tr>
+                    <tr>
+                        @for (int i = 0; i < 7; i++)
+                        {
+                            <td class="time-slot" data-time="14:00 - 16:00" data-date="@DateTime.Today.AddDays(i).ToString("yyyy-MM-dd")">14:00 - 16:00</td>
+                        }
+                    </tr>
+                </tbody>
+            </table>
+            @Html.ValidationMessageFor(model => model.AppointmentDate, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    <script src="~/Scripts/jquery-3.7.1.min.js"></script>
+    <script src="~/Scripts/notify.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var successMessage = '@TempData["SuccessMessage"]';
+            if (successMessage) {
+                $.notify(successMessage, "success");
+            }
+
+            $('#psychologistDropdown').change(function () {
+                var psychologistId = $(this).val();
+                if (psychologistId) {
+                    $.getJSON('@Url.Action("GetAvailableTimeSlots", "Appointments")', { psychologistId: psychologistId }, function (data) {
+                        $('.time-slot').each(function () {
+                            var slotDate = $(this).data('date');
+                            var slotTime = $(this).data('time');
+                            var isAvailable = true;
+                            for (var i = 0; i < data.length; i++) {
+                                if (data[i].Date === slotDate && data[i].Time === slotTime) {
+                                    isAvailable = data[i].IsAvailable;
+                                    break;
+                                }
+                            }
+                            $(this).toggleClass('unavailable', !isAvailable);
+                            $(this).toggleClass('available', isAvailable);
+                        });
+                    });
+                } else {
+                    $('.time-slot').removeClass('available').addClass('unavailable');
+                }
+            });
+
+            $('.time-slot').click(function () {
+                if ($(this).hasClass('available')) {
+                    $('.time-slot').removeClass('selected');
+                    $(this).addClass('selected');
+                    var selectedDate = $(this).data('date');
+                    var selectedTime = $(this).data('time');
+                    $('#appointmentDate').val(selectedDate + 'T' + selectedTime.split(' - ')[0] + ':00');
+                }
+            });
+        });
+    </script>
+    <style>
+        .time-slot {
+            cursor: pointer;
+        }
+
+            .time-slot.unavailable {
+                background-color: #f0f0f0;
+                color: #a0a0a0;
+                pointer-events: none;
+            }
+
+            .time-slot.available {
+                background-color: #ffffff;
+                color: #000000;
+            }
+
+            .time-slot.selected {
+                background-color: #d0e0f0;
+            }
+    </style>
+}
