@@ -97,7 +97,7 @@ namespace MentalHealthApp.Controllers
                 db.SaveChanges();
 
                 TempData["SuccessMessage"] = "Appointment created successfully!";
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Manage");
             }
 
             model.Psychologists = db.Psychologists.Select(p => new SelectListItem
@@ -152,7 +152,7 @@ namespace MentalHealthApp.Controllers
                 appointment.AppointmentDate = model.AppointmentDate;
                 db.Entry(appointment).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Manage");
             }
             model.Psychologists = new SelectList(db.Psychologists, "Id", "FullName", model.PsychologistId);
             model.Users = new SelectList(db.Users, "Id", "Email", model.UserId);
