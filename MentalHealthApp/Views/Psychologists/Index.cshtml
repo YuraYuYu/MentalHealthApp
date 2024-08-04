@@ -4,10 +4,11 @@
     ViewBag.Title = "Psychological Counseling";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var isAdmin = ViewBag.IsAdmin;
-    var appointmentCounts = ViewBag.AppointmentCounts as List<dynamic>;
+    var appointmentCountsJson = ViewBag.AppointmentCountsJson;
+    var psychologistsJson = ViewBag.PsychologistsJson;
 }
 
-<h2>Psychological Counseling</h2>
+<h2>Psychological</h2>
 
 @if (isAdmin)
 {
@@ -18,50 +19,26 @@
     <form method="post" action="@Url.Action("Export", "Psychologists")">
         <input type="submit" value="Export" class="btn btn-primary" />
     </form>
-}
 
-@if (isAdmin)
-{
     <table class="table">
         <thead>
             <tr>
-                <th>
-                    Photo
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.FirstName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.LastName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Specialization)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.AverageRating)
-                </th>
-                <th>
-                    Actions
-                </th>
+                <th>Photo</th>
+                <th>@Html.DisplayNameFor(model => model.FirstName)</th>
+                <th>@Html.DisplayNameFor(model => model.LastName)</th>
+                <th>@Html.DisplayNameFor(model => model.Specialization)</th>
+                <th>@Html.DisplayNameFor(model => model.AverageRating)</th>
+                <th>Actions</th>
             </tr>
-            <
-        </thead>>
+        </thead>
         <tbody>
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>
-                        <img src="@item.Photo" alt="Psychologist Photo" style="width:100px;height:auto;" />
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FirstName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LastName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Specialization)
-                    </td>
+                    <td><img src="@item.Photo" alt="Psychologist Photo" style="width:100px;height:auto;" /></td>
+                    <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.LastName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Specialization)</td>
                     <td>
                         @{
                             var averageRating = item.AverageRating;
@@ -85,6 +62,9 @@
         </tbody>
     </table>
 
+    <div style="width: 50%; margin: auto;">
+        <canvas id="appointmentsChart"></canvas>
+    </div>
 }
 else
 {
@@ -118,4 +98,72 @@ else
             </div>
         }
     </div>
+}
+
+@section Scripts {
+    <script src="~/Scripts/Chart.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            console.log("Chart.js loaded successfully");
+
+            var ctx = document.getElementById('appointmentsChart').getContext('2d');
+
+            var appointmentCounts = @Html.Raw(appointmentCountsJson);
+            var psychologists = @Html.Raw(psychologistsJson);
+
+            var labels = [];
+            var data = [];
+
+            appointmentCounts.forEach(function (item) {
+                var psychologist = psychologists.find(p => p.Id === item.PsychologistId);
+                if (psychologist) {
+                    labels.push(psychologist.FirstName + " " + psychologist.LastName);
+                    data.push(item.Count);
+                }
+            });
+
+            var chartData = {
+                labels: labels,
+                datasets: [{
+                    data: data,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            };
+
+            var options = {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Psychologist Appointments'
+                    }
+                }
+            };
+
+            var appointmentsChart = new Chart(ctx, {
+                type: 'pie',
+                data: chartData,
+                options: options
+            });
+        });
+    </script>
 }

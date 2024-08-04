@@ -10,65 +10,65 @@
 {
     @Html.AntiForgeryToken()
 
-<div class="form-horizontal">
-    <h4>Appointment</h4>
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-horizontal">
+        <h4>Appointment</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.PsychologistId, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownListFor(model => model.PsychologistId, Model.Psychologists, "Select Psychologist", new { @class = "form-control", id = "psychologistDropdown" })
-            @Html.ValidationMessageFor(model => model.PsychologistId, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.PsychologistId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.PsychologistId, Model.Psychologists, "Select Psychologist", new { @class = "form-control", id = "psychologistDropdown" })
+                @Html.ValidationMessageFor(model => model.PsychologistId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @Html.HiddenFor(model => model.UserId)
+
+        <div class="form-group">
+            <label class="control-label col-md-2">User</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control" value="@User.Identity.Name" readonly />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="hidden" id="appointmentDate" name="AppointmentDate" />
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            @for (int i = 0; i < 7; i++)
+                            {
+                                <th>@DateTime.Today.AddDays(i).ToString("MM/dd/yyyy")</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            @for (int i = 0; i < 7; i++)
+                            {
+                                <td class="time-slot" data-time="09:00 - 11:00" data-date="@DateTime.Today.AddDays(i).ToString("yyyy-MM-dd")">09:00 - 11:00</td>
+                            }
+                        </tr>
+                        <tr>
+                            @for (int i = 0; i < 7; i++)
+                            {
+                                <td class="time-slot" data-time="14:00 - 16:00" data-date="@DateTime.Today.AddDays(i).ToString("yyyy-MM-dd")">14:00 - 16:00</td>
+                            }
+                        </tr>
+                    </tbody>
+                </table>
+                @Html.ValidationMessageFor(model => model.AppointmentDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
         </div>
     </div>
-
-    @Html.HiddenFor(model => model.UserId)
-
-    <div class="form-group">
-        <label class="control-label col-md-2">User</label>
-        <div class="col-md-10">
-            <input type="text" class="form-control" value="@User.Identity.Name" readonly />
-        </div>
-    </div>
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="hidden" id="appointmentDate" name="AppointmentDate" />
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        @for (int i = 0; i < 7; i++)
-                        {
-                            <th>@DateTime.Today.AddDays(i).ToString("MM/dd/yyyy")</th>
-                        }
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        @for (int i = 0; i < 7; i++)
-                        {
-                            <td class="time-slot" data-time="09:00 - 11:00" data-date="@DateTime.Today.AddDays(i).ToString("yyyy-MM-dd")">09:00 - 11:00</td>
-                        }
-                    </tr>
-                    <tr>
-                        @for (int i = 0; i < 7; i++)
-                        {
-                            <td class="time-slot" data-time="14:00 - 16:00" data-date="@DateTime.Today.AddDays(i).ToString("yyyy-MM-dd")">14:00 - 16:00</td>
-                        }
-                    </tr>
-                </tbody>
-            </table>
-            @Html.ValidationMessageFor(model => model.AppointmentDate, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Create" class="btn btn-default" />
-        </div>
-    </div>
-</div>
 }
 
 <div>
@@ -79,13 +79,13 @@
     <script src="~/Scripts/jquery-3.7.1.min.js"></script>
     <script src="~/Scripts/notify.min.js"></script>
     <script>
-        $(document).ready(function () {
+        $(function () {
             var successMessage = '@TempData["SuccessMessage"]';
             if (successMessage) {
                 $.notify(successMessage, "success");
             }
 
-            $('#psychologistDropdown').change(function () {
+            $('#psychologistDropdown').on('change', function () {
                 var psychologistId = $(this).val();
                 if (psychologistId) {
                     $.getJSON('@Url.Action("GetAvailableTimeSlots", "Appointments")', { psychologistId: psychologistId }, function (data) {
@@ -108,7 +108,7 @@
                 }
             });
 
-            $('.time-slot').click(function () {
+            $('.time-slot').on('click', function () {
                 if ($(this).hasClass('available')) {
                     $('.time-slot').removeClass('selected');
                     $(this).addClass('selected');

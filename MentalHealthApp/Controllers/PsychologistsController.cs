@@ -21,13 +21,30 @@ namespace MentalHealthApp.Controllers
         {
             ViewBag.IsAdmin = User.IsInRole("Admin");
             var psychologists = db.Psychologists.ToList();
-            foreach (var psychologist in psychologists)
+
+            var appointmentCounts = db.Appointments
+                              .GroupBy(a => a.PsychologistId)
+                              .Select(g => new
+                              {
+                                  PsychologistId = g.Key,
+                                  Count = g.Count()
+                              }).ToList();
+
+            var psychologistViewModels = psychologists.Select(p => new PsychologistViewModel
             {
-                var averageRating = db.Appointments
-                    .Where(a => a.PsychologistId == psychologist.Id && a.RatingScore.HasValue)
-                    .Average(a => (double?)a.RatingScore) ?? 0.0;
-                psychologist.AverageRating = averageRating;
-            }
+                Id = p.Id,
+                FirstName = p.FirstName,
+                LastName = p.LastName,
+                Specialization = p.Specialization,
+                AverageRating = db.Appointments
+                         .Where(a => a.PsychologistId == p.Id && a.RatingScore.HasValue)
+                         .Average(a => (double?)a.RatingScore) ?? 0.0
+            }).ToList();
+
+            var appointmentCountsJson = new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(appointmentCounts);
+            var psychologistViewModelsJson = new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(psychologistViewModels);
+            ViewBag.AppointmentCountsJson = appointmentCountsJson;
+            ViewBag.PsychologistsJson = psychologistViewModelsJson;
 
             return View(psychologists);
         }
