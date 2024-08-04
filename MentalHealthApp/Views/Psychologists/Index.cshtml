@@ -4,6 +4,7 @@
     ViewBag.Title = "Psychological Counseling";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var isAdmin = ViewBag.IsAdmin;
+    var appointmentCounts = ViewBag.AppointmentCounts as List<dynamic>;
 }
 
 <h2>Psychological Counseling</h2>
@@ -13,6 +14,10 @@
     <p>
         @Html.ActionLink("Create New", "Create")
     </p>
+
+    <form method="post" action="@Url.Action("Export", "Psychologists")">
+        <input type="submit" value="Export" class="btn btn-primary" />
+    </form>
 }
 
 @if (isAdmin)
@@ -66,7 +71,7 @@
                             }
                             else
                             {
-                                <text>@averageRating</text>
+                                <text>@Math.Round(averageRating, 1)</text>
                             }
                         }
                     </td>
@@ -79,6 +84,7 @@
             }
         </tbody>
     </table>
+
 }
 else
 {
@@ -93,7 +99,19 @@ else
                     <div class="col-md-9">
                         <h4>@item.FirstName @item.LastName</h4>
                         <p>@item.Specialization</p>
-                        <p>Rating: @item.AverageRating</p>
+                        <p>
+                            Rating: @{
+                                var rating = item.AverageRating;
+                                if (rating == 0)
+                                {
+                                    <text>No Ratings</text>
+                                }
+                                else
+                                {
+                                    <text>@Math.Round(rating, 1)</text>
+                                }
+                            }
+                        </p>
                         <a href="@Url.Action("Create", "Appointments", new { psychologistId = item.Id })" class="btn btn-primary">Book</a>
                     </div>
                 </div>

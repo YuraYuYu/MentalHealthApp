@@ -94,6 +94,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />
+    <Content Include="Scripts\chart.js" />
+    <Content Include="Scripts\chart.min.js" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

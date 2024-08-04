@@ -36,7 +36,19 @@
         </dd>
 
         <dt>Average Rating</dt>
-        <dd>@ViewBag.AverageRating</dd>
+        <dd>
+            @{
+                var rating = Model.AverageRating;
+                if (rating == 0)
+                {
+                    <text>No Ratings</text>
+                }
+                else
+                {
+                    <text>@Math.Round(rating, 1)</text>
+                }
+            }
+        </dd>
 
         <dt>
             Photo

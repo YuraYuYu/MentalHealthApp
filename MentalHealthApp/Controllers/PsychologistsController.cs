@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using MentalHealthApp.Models;
@@ -141,6 +142,46 @@ namespace MentalHealthApp.Controllers
             db.Psychologists.Remove(psychologist);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public ActionResult Export()
+        {
+            var appointments = db.Appointments
+                                 .Include(a => a.Psychologist)
+                                 .OrderBy(a => a.PsychologistId)
+                                 .ThenBy(a => a.AppointmentDate)
+                                 .ToList();
+
+            var exportData = new List<ExportViewModel>();
+
+            foreach (var appointment in appointments)
+            {
+                exportData.Add(new ExportViewModel
+                {
+                    PsychologistName = appointment.Psychologist.FirstName + " " + appointment.Psychologist.LastName,
+                    AppointmentDate = appointment.AppointmentDate,
+                    UserName = db.Users.Find(appointment.UserId).UserName,
+                    Rating = appointment.RatingScore
+                });
+            }
+
+            var csv = new StringBuilder();
+            csv.AppendLine("Psychologist,Appointment Date,User,Rating");
+
+            foreach (var item in exportData)
+            {
+                csv.AppendLine($"{item.PsychologistName},{item.AppointmentDate},{item.UserName},{item.Rating}");
+            }
+
+            return File(new System.Text.UTF8Encoding().GetBytes(csv.ToString()), "text/csv", "Appointments.csv");
+        }
+
+        public class ExportViewModel
+        {
+            public string PsychologistName { get; set; }
+            public DateTime AppointmentDate { get; set; }
+            public string UserName { get; set; }
+            public double? Rating { get; set; }
         }
 
         protected override void Dispose(bool disposing)
