@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="~/Content/Site.css" type="text/css" />
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <script src="~/Scripts/jquery-3.7.1.min.js"></script>
+    <script src="~/Scripts/notify.min.js"></script>
 
 </head>
 <body>
@@ -33,7 +35,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - Mental Health Web</p>
         </footer>
     </div>
 
@@ -41,5 +43,13 @@
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
     <script src="~/Scripts/notify.min.js" defer></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var successMessage = '@TempData["SuccessMessage"]';
+            if (successMessage) {
+                $.notify(successMessage, "success");
+            }
+        });
+    </script>
 </body>
 </html>
