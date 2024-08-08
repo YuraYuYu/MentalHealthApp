@@ -110,7 +110,7 @@
                                     @Html.Hidden("appointmentId", item.Id)
                                     <div class="form-group">
                                         @Html.Label("Score")
-                                        @Html.TextBox("score", null, new { @class = "form-control", type = "number", min = "0", max = "5", step = "0.1", required = "required" })
+                                        @Html.TextBox("score", null, new { @class = "form-control", type = "number", min = "0", max = "5", step = "0.1", required = "required", @oninvalid = "this.setCustomValidity('The score must be between 0 and 5, with a maximum of one decimal place.')", @oninput = "this.setCustomValidity('')" })
                                     </div>
                                     <button type="submit" class="btn btn-primary">Submit Rating</button>
                                 }

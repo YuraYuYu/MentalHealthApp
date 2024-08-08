@@ -3,7 +3,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="knowledge-park-banner">
+<div style="text-align:center; margin-bottom: 5px;">
     <img src="~/uploads/20240806215111.jpg" alt="Knowledge Park Banner" class="knowledge-park-image" />
 </div>
 
@@ -15,11 +15,15 @@
     <div class="latest-article">
         <div class="row">
             <div class="col-md-4">
-                <img src="~/uploads/article1.jpg" alt="Latest Article Image" class="article-image" />
+                <a href="@Url.Action("Details", "Articles", new { id = 1 })">
+                    <img src="~/uploads/article1.jpg" alt="Latest Article Image" class="article-image img-thumbnail" />
+                </a>
             </div>
             <div class="col-md-8">
-                <h3>@Html.ActionLink("10 Tips for Managing Stress in a Busy World", "Details", "Articles", new { id = 1 }, null)</h3>
-                <p>In today's fast-paced world, stress can seem like aninevitable part of daily life. However, managingstress is crucialfor maintaining both mental ancphysical health...</p>
+                <h3 class="article-title">
+                    @Html.ActionLink("10 Tips for Managing Stress in a Busy World", "Details", "Articles", new { id = 1 }, new { @class = "article-link" })
+                </h3>
+                <p>In today's fast-paced world, stress can seem like an inevitable part of daily life. However, managing stress is crucial for maintaining both mental and physical health...</p>
                 <p><span class="badge bg-primary">MENTAL HEALTH TIPS</span> <span class="text-muted">4 months ago</span></p>
             </div>
         </div>
@@ -28,10 +32,14 @@
     <div class="latest-article">
         <div class="row">
             <div class="col-md-4">
-                <img src="~/uploads/article2.jpg" alt="Latest Article Image" class="article-image" />
+                <a href="@Url.Action("Details", "Articles", new { id = 2 })">
+                    <img src="~/uploads/article2.jpg" alt="Latest Article Image" class="article-image img-thumbnail" />
+                </a>
             </div>
             <div class="col-md-8">
-                <h3>@Html.ActionLink("Mental Health & Self-Care", "Details", "Articles", new { id = 2 }, null)</h3>
+                <h3 class="article-title">
+                    @Html.ActionLink("Mental Health & Self-Care", "Details", "Articles", new { id = 2 }, new { @class = "article-link" })
+                </h3>
                 <p>Learn about various self-care techniques, from mindfulness and meditation to physical exercise and creative outlets, that can help boost your mental well-being. Whether you’re dealing with stress, anxiety...</p>
                 <p><span class="badge bg-primary">MENTAL HEALTH AWARENESS</span> <span class="text-muted">3 months ago</span></p>
             </div>
@@ -39,6 +47,26 @@
     </div>
 </div>
 
+    
+
 @section Scripts {
     <script src="~/Scripts/custom.js"></script>
 }
+
+<style>
+    .article-link {
+        text-decoration: none;
+        color: black;
+        font-weight: bold;
+    }
+
+        .article-link:hover {
+            text-decoration: none;
+            color: black;
+        }
+
+    .article-title {
+        font-weight: bold;
+        font-size: 1.5em;
+    }
+</style>

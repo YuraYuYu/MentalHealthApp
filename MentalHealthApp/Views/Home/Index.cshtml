@@ -2,13 +2,101 @@
     ViewBag.Title = "Home Page";
 }
 
-<div style="text-align:center;">
-    <img src="~/uploads/首页.jpg" alt="Homepage Image" class="homepage-image" />
+<div style="text-align:center; margin-bottom: 5px;">
+    <img src="~/uploads/首页2.jpg" alt="Homepage Image" class="knowledge-park-image" />
 </div>
 
-<div class="row">
+<div class="container">
     <div class="col-md-12">
         <h2>Welcome to Our Mental Health Platform</h2>
         <p>Here, you can find resources and support to improve your mental well-being.</p>
     </div>
+
+    <div class="row mt-4">
+        <div class="col-md-4 mb-4">
+            <div class="card text-center h-100" style="background-color: #F9F2E7;">
+                <div class="card-body d-flex flex-column">
+                    <h3 class="card-title" >Activity Center</h3>
+                    <p class="card-text">Discover engaging activities designed to support your mental health and well-being.</p>
+                    <img src="~/uploads/图片ack.png" alt="Activity Center Image" class="card-img mx-auto mb-3" style="max-height: 150px; object-fit: contain;" />
+                    <div class="mt-auto">
+                        <a href="@Url.Action("About", "Home")" class="btn btn-primary mt-3">Explore Activities</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card text-center h-100" style="background-color: #ECF3FE;">
+                <div class="card-body d-flex flex-column">
+                    <h3 class="card-title">Psychologists</h3>
+                    <p class="card-text">Find professional psychologists to help you navigate your mental health journey.</p>
+                    <img src="~/uploads/图片p.png" alt="Psychologists Image" class="card-img mx-auto mb-3" style="max-height: 150px; object-fit: contain;" />
+                    <div class="mt-auto">
+                        <a href="@Url.Action("Index", "Psychologists")" class="btn btn-primary mt-3">Find Psychologists</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card text-center h-100" style="background-color: #F9F2E7;">
+                <div class="card-body d-flex flex-column">
+                    <h3 class="card-title">Knowledge Park</h3>
+                    <p class="card-text">Access various mental health resources and self-care techniques.</p>
+                    <img src="~/uploads/图片kn.png" alt="Knowledge Park Image" class="card-img mx-auto mb-3" style="max-height: 150px; object-fit: contain;" />
+                    <div class="mt-auto">
+                        <a href="@Url.Action("Contact", "Home")" class="btn btn-primary mt-3">Visit Knowledge Park</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+
+
+<style>
+    .card {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+
+    .card-img {
+        border-radius: 10px;
+        max-height: 200px;
+        object-fit: cover;
+        margin-bottom: 20px;
+        width: 100%; /* 保持图片宽度一致 */
+    }
+
+    .card-title {
+        font-size: 1.5em;
+        margin-bottom: 10px;
+    }
+
+    .card-text {
+        font-size: 1em;
+        margin-bottom: 20px;
+    }
+
+    .btn-primary {
+        background-color: #4F89C7;
+        border-color: #4F89C7;
+        border-radius: 20px;
+        padding: 10px 20px;
+        font-size: 1em;
+    }
+
+        .btn-primary:hover {
+            background-color: #3b70a3;
+            border-color: #3b70a3;
+        }
+
+    .card-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+    }
+</style>

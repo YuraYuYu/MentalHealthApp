@@ -1,11 +1,11 @@
 ﻿@{
     ViewBag.Title = "About";
 }
-<div class="container">
-    <div class="knowledge-park-banner">
-        <img src="~/uploads/activity.jpg" alt="Knowledge Park Banner" class="knowledge-park-image" />
-    </div>
+
+<div style="text-align:center; margin-bottom: 5px;">
+    <img src="~/uploads/activity.jpg" alt="Knowledge Park Banner" class="knowledge-park-image" />
 </div>
+
 <div class="container">
     <h1>Welcome to the Activity Center</h1>
     <p>Discover a diverse range of engaging and enriching activities designed to support your mental health and well-being. Our Activity Center offers workshops, classes, and events that provide practical tools and strategies for managing stress, building resilience, and enhancing your overall mental wellness. Whether you’re interested in mindfulness practices, creative therapies, or physical activities, there’s something here for everyone. Join us to connect with a supportive community and embark on your journey towards a healthier, happier you. Explore our offerings and find the perfect activity to nurture your mind and spirit today.</p>
@@ -14,10 +14,14 @@
     <div class="latest-article">
         <div class="row">
             <div class="col-md-3">
-                <img src="~/uploads/activities1.jpg" alt="Latest Article Image" class="article-image" />
+                <a href="@Url.Action("Details", "Articles", new { id = 1 })">
+                    <img src="~/uploads/activities1.jpg" alt="Latest Article Image" class="article-image img-thumbnail" />
+                </a>
             </div>
             <div class="col-md-9">
-                <h3>@Html.ActionLink("Bloom Within:Using FloralTherapy for MentalWell-being", "Details", "Articles", new { id = 1 }, null)</h3>
+                <h3 class="article-title">
+                    @Html.ActionLink("Bloom Within: Using Floral Therapy for Mental Well-being", "Details", "Articles", new { id = 1 }, new { @class = "article-link" })
+                </h3>
                 <p>Discover the healing power of flowers in our unique workshop on floral therapy. “Bloom Within” explores how engaging with flowers can enhance your mental well-being, reduce stress, and promote a sense of calm and happiness.</p>
                 <p><span class="badge bg-primary">MENTAL HEALTH TIPS</span> <span class="text-muted">4 months ago</span></p>
             </div>
@@ -27,17 +31,40 @@
     <div class="latest-article">
         <div class="row">
             <div class="col-md-3">
-                <img src="~/uploads/activities2.jpg" alt="Latest Article Image" class="article-image" />
+                <a href="@Url.Action("Details", "Articles", new { id = 2 })">
+                    <img src="~/uploads/activities2.jpg" alt="Latest Article Image" class="article-image img-thumbnail" />
+                </a>
             </div>
             <div class="col-md-9">
-                <h3>@Html.ActionLink("The Power of Positivity: Cultivating a Positive Mindset.", "Details", "Articles", new { id = 2 }, null)</h3>
-                <p>Unlock the transformative power of positivity in our engaging workshop designed to help you cultivate a positive mindset. “The Power of Positivity” delves into practical techniques and strategies for shifting your perspective and embracing a more optimistic outlook on life..</p>
+                <h3 class="article-title">
+                    @Html.ActionLink("The Power of Positivity: Cultivating a Positive Mindset.", "Details", "Articles", new { id = 2 }, new { @class = "article-link" })
+                </h3>
+                <p>Unlock the transformative power of positivity in our engaging workshop designed to help you cultivate a positive mindset. “The Power of Positivity” delves into practical techniques and strategies for shifting your perspective and embracing a more optimistic outlook on life.</p>
                 <p><span class="badge bg-primary">MENTAL HEALTH AWARENESS</span> <span class="text-muted">3 months ago</span></p>
             </div>
         </div>
     </div>
-</div>
+</div> 
+
 
 @section Scripts {
     <script src="~/Scripts/custom.js"></script>
 }
+
+<style>
+    .article-link {
+        text-decoration: none;
+        color: black;
+        font-weight: bold;
+    }
+
+        .article-link:hover {
+            text-decoration: none;
+            color: black;
+        }
+
+    .article-title {
+        font-weight: bold;
+        font-size: 1.5em;
+    }
+</style>

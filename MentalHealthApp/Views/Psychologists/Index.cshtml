@@ -8,7 +8,7 @@
     var psychologistsJson = ViewBag.PsychologistsJson;
 }
 
-<h2>Psychological</h2>
+<h2>Psychologists</h2>
 
 @if (isAdmin)
 {
@@ -62,41 +62,48 @@
         </tbody>
     </table>
 
-    <div style="width: 50%; margin: auto;">
-        <canvas id="appointmentsChart"></canvas>
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-5">
+            <canvas id="appointmentsChart"></canvas>
+        </div>
+        <div class="col-md-5" style="padding: 20px;">
+            <img src="~/uploads/chart.jpg" alt="Chart Image" class="img-fluid rounded-image" />
+        </div>
     </div>
 }
 else
 {
-    <div class="list-group">
-        @foreach (var item in Model)
-        {
-            <div class="list-group-item">
-                <div class="row">
-                    <div class="col-md-3">
-                        <img src="@Url.Content(item.Photo)" alt="Psychologist Photo" class="img-thumbnail" />
-                    </div>
-                    <div class="col-md-9">
-                        <h4>@item.FirstName @item.LastName</h4>
-                        <p>@item.Specialization</p>
-                        <p>
-                            Rating: @{
-                                var rating = item.AverageRating;
-                                if (rating == 0)
-                                {
-                                    <text>No Ratings</text>
+    <div class="container">
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card text-center h-100" style="background-color: #F9F2E7;">
+                        <img src="@Url.Content(item.Photo)" alt="@item.FirstName @item.LastName" class="card-img-top img-thumbnail" />
+                        <div class="card-body d-flex flex-column">
+                            <h3 class="card-title font-weight-bold">@item.FirstName @item.LastName</h3>
+                            <h4 class="card-subtitle mb-2 text-muted">
+                                Average Rating: @{
+                                    var rating = item.AverageRating;
+                                    if (rating == 0)
+                                    {
+                                        @:No Ratings
+                                    }
+                                    else
+                                    {
+                                        @Math.Round(rating, 1)
+                                    }
                                 }
-                                else
-                                {
-                                    <text>@Math.Round(rating, 1)</text>
-                                }
-                            }
-                        </p>
-                        <a href="@Url.Action("Create", "Appointments", new { psychologistId = item.Id })" class="btn btn-primary">Book</a>
+                            </h4>
+                            <p class="card-text">@item.Specialization</p>
+                            <div class="mt-auto">
+                                <a href="@Url.Action("Create", "Appointments", new { psychologistId = item.Id })" class="btn btn-warning">Book</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        }
+            }
+        </div>
     </div>
 }
 
@@ -151,10 +158,20 @@ else
                 plugins: {
                     legend: {
                         position: 'top',
+                        labels: {
+                            font: {
+                                size: 16, // 设置图例字体大小
+                                family: 'Arial, sans-serif', // 设置图例字体
+                            }
+                        }
                     },
                     title: {
                         display: true,
-                        text: 'Psychologist Appointments'
+                        text: 'Psychologist Appointments',
+                        font: {
+                            size: 18, // 设置标题字体大小
+                            family: 'Arial, sans-serif', // 设置标题字体
+                        }
                     }
                 }
             };
@@ -167,3 +184,62 @@ else
         });
     </script>
 }
+
+<style>
+    .card-title {
+        font-weight: bold; /* 加粗字体 */
+    }
+
+    .card-subtitle {
+        font-weight: bold; /* 加粗字体 */
+    }
+
+    .card {
+        margin-bottom: 20px; /* 增加卡片之间的间距 */
+        border: none; /* 移除默认边框 */
+    }
+
+    .square-img {
+        width: 100%; /* 让图片宽度占满容器 */
+        height: 0;
+        padding-bottom: 100%; /* 高度设置为宽度的100%，形成正方形 */
+        object-fit: cover; /* 确保图片覆盖整个容器 */
+    }
+
+    .card .btn-warning {
+        background-color: #FFD700; /* 设置按钮颜色 */
+        border: none; /* 移除按钮边框 */
+        color: black; /* 设置按钮文字颜色 */
+    }
+
+        .card .btn-warning:hover {
+            background-color: #FFC107; /* 设置按钮悬停颜色 */
+        }
+
+    .row {
+        margin-bottom: 20px;
+    }
+
+    .img-fluid {
+        max-width: 100%;
+        height: auto;
+    }
+
+    h3 {
+        font-weight: bold;
+    }
+
+    .container .row .col-md-5 .card {
+        border-radius: 10px;
+        padding: 10px;
+    }
+
+    .card-img-top {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+    .rounded-image {
+        border-radius: 50%;
+    }
+</style>
