@@ -78,46 +78,75 @@ else
         <div class="col-md-6">
             <h1>Our Psychologists & Therapists</h1>
             <p>Connect with our expert private psychologists and therapists based in London. Offering compassionate therapy tailored to you, available both online and in-person.</p>
+            <div class="input-group mb-3">
+                <input type="text" id="searchInput" class="form-control" placeholder="Search Psychologists by name or specialization" aria-label="Search Psychologists" aria-describedby="button-search">
+                <button class="btn btn-outline-secondary" type="button" id="button-search">Search</button>
+            </div>
         </div>
         <div class="col-md-4 text-center">
             <img src="~/uploads/图片 4.png" alt="Therapist Illustration" class="img-fluid" />
         </div>
     </div>
 
-    
-        <div class="row justify-content-center align-items-center">
-            @foreach (var item in Model)
-            {
-                <div class="col-md-4 mb-4">
-                    <div class="card text-center h-100" style="background-color: #F9F2E7;">
-                        <img src="@Url.Content(item.Photo)" alt="@item.FirstName @item.LastName" class="card-img-top img-thumbnail" />
-                        <div class="card-body d-flex flex-column">
-                            <h3 class="card-title font-weight-bold">@item.FirstName @item.LastName</h3>
-                            <h4 class="card-subtitle mb-2 text-muted">
-                                Average Rating: @{
-                                    var rating = item.AverageRating;
-                                    if (rating == 0)
-                                    {
-                                        @:No Ratings
-                                    }
-                                    else
-                                    {
-                                        @Math.Round(rating, 1)
-                                    }
+
+    <div id="psychologistsList" class="row justify-content-center align-items-center">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4 mb-4 psychologist-card">
+                <div class="card text-center h-100" style="background-color: #F9F2E7;">
+                    <img src="@Url.Content(item.Photo)" alt="@item.FirstName @item.LastName" class="card-img-top img-thumbnail" />
+                    <div class="card-body d-flex flex-column">
+                        <h3 class="card-title font-weight-bold">@item.FirstName @item.LastName</h3>
+                        <h4 class="card-subtitle mb-2 text-muted">
+                            Average Rating: @{
+                                var rating = item.AverageRating;
+                                if (rating == 0)
+                                {
+                                    @:No Ratings
                                 }
-                            </h4>
-                            <p class="card-text">@item.Specialization</p>
-                            <div class="mt-auto">
-                                <a href="@Url.Action("Create", "Appointments", new { psychologistId = item.Id })" class="btn btn-warning">Book</a>
-                            </div>
+                                else
+                                {
+                                    @Math.Round(rating, 1)
+                                }
+                            }
+                        </h4>
+                        <p class="card-text">@item.Specialization</p>
+                        <div class="mt-auto">
+                            <a href="@Url.Action("Create", "Appointments", new { psychologistId = item.Id })" class="btn btn-warning">Book</a>
                         </div>
                     </div>
                 </div>
-            }
-        </div>
+            </div>
+        }
+    </div>
 }
 
 @section Scripts {
+    <script src="~/Scripts/jquery-3.7.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#button-search').on('click', function () {
+                var searchTerm = $('#searchInput').val().toLowerCase();
+
+                $('.psychologist-card').each(function () {
+                    var psychologistName = $(this).find('.card-title').text().toLowerCase();
+                    var psychologistSpecialization = $(this).find('.card-text').text().toLowerCase();
+
+                    if (psychologistName.includes(searchTerm) || psychologistSpecialization.includes(searchTerm)) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            });
+
+            $('#searchInput').on('keypress', function (e) {
+                if (e.which === 13) {  // Enter key pressed
+                    $('#button-search').click();
+                }
+            });
+        });
+    </script>
     <script src="~/Scripts/Chart.min.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
