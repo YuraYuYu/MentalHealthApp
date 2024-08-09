@@ -124,10 +124,9 @@ else
 @section Scripts {
     <script src="~/Scripts/jquery-3.7.1.min.js"></script>
     <script>
-        $(document).ready(function () {
+        $(function () { 
             $('#button-search').on('click', function () {
                 var searchTerm = $('#searchInput').val().toLowerCase();
-
                 $('.psychologist-card').each(function () {
                     var psychologistName = $(this).find('.card-title').text().toLowerCase();
                     var psychologistSpecialization = $(this).find('.card-text').text().toLowerCase();
@@ -138,12 +137,6 @@ else
                         $(this).hide();
                     }
                 });
-            });
-
-            $('#searchInput').on('keypress', function (e) {
-                if (e.which === 13) {  // Enter key pressed
-                    $('#button-search').click();
-                }
             });
         });
     </script>
