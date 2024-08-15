@@ -58,11 +58,11 @@ namespace MentalHealthApp
             //   appId: "",
             //   appSecret: "");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "1046509727962-k0rpaqh79cjnej7qjdtjpuj14eusn3qr.apps.googleusercontent.com",
+                ClientSecret = "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"
+            });
         }
     }
 }
