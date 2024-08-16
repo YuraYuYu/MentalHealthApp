@@ -17,7 +17,7 @@
         @Html.ActionLink("Create New", "Create")
     </p>
 
-    <form method="post" action="@Url.Action("Export", "Psychologists")">
+    <form method="post" action="@Url.Action("Export", "Psychologists")" class="col-md-3">
         <input type="submit" value="Export" class="btn btn-primary" />
     </form>
 
@@ -78,9 +78,9 @@ else
         <div class="col-md-6">
             <h1>Our Psychologists & Therapists</h1>
             <p>Connect with our expert private psychologists and therapists based in London. Offering compassionate therapy tailored to you, available both online and in-person.</p>
-            <div class="input-group mb-3">
+            <div class="input-group mb-3 style="max-width: 600px; margin: 0 auto;">
                 <input type="text" id="searchInput" class="form-control" placeholder="Search Psychologists by name or specialization" aria-label="Search Psychologists" aria-describedby="button-search">
-                <button class="btn btn-outline-secondary" type="button" id="button-search">Search</button>
+                <button class="btn search-button" type="button" id="button-search">Search</button>
             </div>
         </div>
         <div class="col-md-4 text-center">
@@ -218,6 +218,22 @@ else
 }
 
 <style>
+    /* 调整搜索按钮样式 */
+    .search-button {
+        background-color: transparent; /* 初始状态下按钮透明 */
+        border-color: #6c757d; /* 边框颜色为灰色 */
+        color: #6c757d; /* 文字颜色为灰色 */
+        transition: background-color 0.3s, color 0.3s; /* 添加平滑的颜色过渡效果 */
+        padding: 6px 12px; /* 调整按钮的内边距 */
+        width: 25%; /* 让按钮占满它所在的容器宽度 */
+    }
+    
+    /* 鼠标悬停时改变按钮样式 */
+    .search-button:hover {
+        background-color: #6c757d; /* 悬停时背景颜色变为灰色 */
+        color: #ffffff; /* 文字颜色变为白色 */
+        border-color: #6c757d; /* 边框颜色变为灰色 */
+    }
     .card-title {
         font-weight: bold; /* 加粗字体 */
     }

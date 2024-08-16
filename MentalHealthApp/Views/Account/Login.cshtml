@@ -7,7 +7,7 @@
 
 <main class="d-flex justify-content-center align-items-center" style="min-height: 100vh; background-color: #F0F4F8;">
     <div class="card p-4 shadow-sm" style="width: 100%; max-width: 400px;">
-        <div class="text-center mb-4">
+        <div class="text-center mb-4" style="padding-top: 20px;">
             <h2 id="title">@ViewBag.Title</h2>
         </div>
 
@@ -15,26 +15,28 @@
             @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
             {
                 @Html.AntiForgeryToken()
-                <h4 class="text-center mb-4">Use a local account to log in.</h4>
+                <h6 class="text-center mb-3">Use a local account to log in.</h6>
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                <div class="form-group mb-3">
-                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email" })
+                <div class="form-group mb-3 text-center">
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email", style = "max-width: 300px; margin: 0 auto;" })
                     @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                 </div>
 
-                <div class="form-group mb-3">
-                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
+                <div class="form-group mb-3 text-center">
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password", style = "max-width: 300px; margin: 0 auto;" })
                     @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                 </div>
 
-                <div class="form-check mb-3">
-                    @Html.CheckBoxFor(m => m.RememberMe, new { @class = "form-check-input", id = "rememberMeCheck" })
-                    @Html.LabelFor(m => m.RememberMe, new { @class = "form-check-label", @for = "rememberMeCheck" })
+                <div class="form-group mb-3 text-center" style="max-width: 300px; margin: 0 auto;">
+                    <div class="form-check d-flex justify-content-start align-items-center">
+                        @Html.CheckBoxFor(m => m.RememberMe, new { @class = "form-check-input", id = "rememberMeCheck" })
+                        @Html.LabelFor(m => m.RememberMe, new { @class = "form-check-label ms-2", @for = "rememberMeCheck" })
+                    </div>
                 </div>
 
-                <div class="d-grid">
-                    <input type="submit" value="Log in" class="btn btn-success btn-lg" style="background-color: #5F7DBE; border-color: #5F7DBE;" />
+                <div class="d-grid text-center">
+                    <input type="submit" value="Log in" class="btn btn-lg btn-success login-button" />
                 </div>
 
                 <p class="text-center mt-3">
@@ -43,7 +45,7 @@
             }
         </section>
 
-        <section id="socialLoginForm" class="mt-4">
+        <section id="socialLoginForm" class="mt-3 text-center" style="padding-bottom: 20px;">
             @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
         </section>
     </div>
@@ -51,4 +53,23 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <style>
+        .login-button,
+        .btn-outline-dark {
+            width: 50%; /* 按钮宽度为容器宽度的50% */
+            margin: 0 auto; /* 居中显示 */
+            transition: background-color 0.3s, color 0.3s; /* 添加平滑的颜色过渡效果 */
+            background-color: #5F7DBE; /* 初始背景色 */
+            border-color: #5F7DBE; /* 初始边框色 */
+            color: #ffffff; /* 文字颜色 */
+        }
+
+            /* 悬停效果 */
+            .login-button:hover,
+            .btn-outline-dark:hover {
+                background-color: #415a99; /* 修改悬停时的背景颜色 */
+                border-color: #415a99; /* 修改悬停时的边框颜色 */
+                color: #ffffff; /* 悬停时的文字颜色 */
+            }
+    </style>
 }

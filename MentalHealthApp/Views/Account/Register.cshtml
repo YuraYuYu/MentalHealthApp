@@ -6,7 +6,7 @@
 
 <main class="d-flex justify-content-center align-items-center" style="min-height: 100vh; background-color: #F0F4F8;">
     <div class="card p-4 shadow-sm" style="width: 100%; max-width: 400px;">
-        <div class="text-center mb-4">
+        <div class="text-center mb-4" style="padding-top: 30px;">
             <h2 id="title">@ViewBag.Title</h2>
         </div>
 
@@ -16,28 +16,28 @@
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
             <div class="form-group mb-3">
-                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email" })
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email", style = "max-width: 300px; margin: 0 auto;" })
                 @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
             </div>
 
             <div class="form-group mb-3">
-                @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password", style = "max-width: 300px; margin: 0 auto;" })
                 @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
             </div>
 
             <div class="form-group mb-3">
-                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "Confirm Password" })
+                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "Confirm Password", style = "max-width: 300px; margin: 0 auto;" })
                 @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
             </div>
 
             <div class="form-group mb-3">
-                @Html.DropDownListFor(m => m.Role, (SelectList)ViewBag.Role, "Select Role", new { @class = "form-control", id = "roleDropdown" })
+                @Html.DropDownListFor(m => m.Role, (SelectList)ViewBag.Role, "Select Role", new { @class = "form-control", id = "roleDropdown", style = "max-width: 300px; margin: 0 auto;" })
                 @Html.ValidationMessageFor(m => m.Role, "", new { @class = "text-danger" })
             </div>
 
             <!-- 仅当选择 Admin 角色时显示身份码输入框 -->
-            <div id="adminCodeSection" class="form-group mb-3" style="display: none;">
-                <input type="password" id="adminCode" class="form-control" placeholder="Enter Admin Code" />
+            <div id="adminCodeSection" class="form-group mb-3" style="display: none; max-width: 300px; margin: 0 auto;">
+                <input type="password" id="adminCode" class="form-control" placeholder="Enter Admin Code" style="max-width: 300px; margin: 0 auto;" />
                 <span id="adminCodeError" class="text-danger" style="display: none;">Invalid Admin Code. You are not authorized to register as an admin.</span>
             </div>
 
@@ -55,8 +55,8 @@
                 </label>
             </div>
 
-            <div class="d-grid">
-                <input type="submit" value="Continue" id="submitBtn" class="btn btn-lg" style="background-color: #5F7DBE; color: white;" />
+            <div class="d-grid" style="padding-bottom: 30px;">
+                <input type="submit" value="Continue" id="submitBtn" class="btn btn-lg" />
             </div>
         }
     </div>
@@ -65,9 +65,9 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script>
-        $(function() {
+        $(function () {
             // 监听角色选择的变化
-            $('#roleDropdown').on('change', function() {
+            $('#roleDropdown').on('change', function () {
                 var selectedRole = $(this).val();
                 if (selectedRole === "Admin") {
                     $('#adminCodeSection').show();
@@ -78,7 +78,7 @@
             });
 
             // 在提交表单时验证身份码
-            $('form').on('submit', function(e) {
+            $('form').on('submit', function (e) {
                 var selectedRole = $('#roleDropdown').val();
                 if (selectedRole === "Admin") {
                     var adminCode = $('#adminCode').val();

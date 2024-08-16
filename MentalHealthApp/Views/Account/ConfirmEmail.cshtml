@@ -1,11 +1,31 @@
 ﻿@{
     ViewBag.Title = "Confirm Email";
 }
+
 <main aria-labelledby="title">
-    <h2 id="title">@ViewBag.Title.</h2>
+    <h2 id="title" tabindex="0">@ViewBag.Title</h2> <!-- 添加tabindex="0"让标题可通过键盘聚焦 -->
     <div>
         <p>
-            Thank you for confirming your email. Please @Html.ActionLink("Click here to Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
+            Thank you for confirming your email. Please @Html.ActionLink("Click here to Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", @class = "btn btn-primary", role = "button", ariaLabel = "Log in after email confirmation" })
         </p>
     </div>
 </main>
+
+@section Styles {
+    <style>
+        /* 添加按钮样式 */
+        #loginLink {
+            text-decoration: none;
+            color: #ffffff;
+            background-color: #5F7DBE;
+            padding: 10px 20px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+            /* 悬停效果 */
+            #loginLink:hover {
+                background-color: #415a99;
+            }
+    </style>
+}

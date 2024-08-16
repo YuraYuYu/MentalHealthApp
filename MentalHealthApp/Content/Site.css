@@ -123,15 +123,37 @@ body {
 }
 
 
-    .card .card-body {
-        padding: 20px;
-    }
+.card .card-body {
+    padding: 20px;
+}
 
-    .card img {
-        max-height: 150px;
-        object-fit: contain;
-    }
+.card img {
+    max-height: 150px;
+    object-fit: contain;
+}
 
-    .card .btn {
-        margin-top: 10px;
-    }
+.card .btn {
+    margin-top: 10px;
+}
+
+/* 这是全局定义的按钮样式 */
+.btn {
+    transition: background-color 0.3s, color 0.3s;
+    background-color: #5F7DBE;
+    border-color: #5F7DBE;
+    color: #ffffff;
+    width: 50%; /* 将按钮宽度设置为50% */
+    margin: 0 auto; /* 居中显示 */
+}
+
+/* 这是全局定义的按钮悬停效果 */
+.btn:hover {
+    background-color: #415a99;
+    border-color: #415a99;
+    color: #ffffff;
+}
+
+/* 确保小型按钮（btn-sm）也应用这些样式 */
+.btn-sm {
+    width: 50%;
+}
