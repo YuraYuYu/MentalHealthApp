@@ -30,32 +30,32 @@
                 @Html.ActionLink("Manage", "ManageLogins") ]
             </dd>
             @*
-            Phone Numbers can used as a second factor of verification in a two-factor authentication system.
+                Phone Numbers can used as a second factor of verification in a two-factor authentication system.
 
-            See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
-                for details on setting up this ASP.NET application to support two-factor authentication using SMS.
+                See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
+                    for details on setting up this ASP.NET application to support two-factor authentication using SMS.
 
-            Uncomment the following block after you have set up two-factor authentication
+                Uncomment the following block after you have set up two-factor authentication
             *@
             @*
-            <dt>Phone Number:</dt>
-            <dd>
-                @(Model.PhoneNumber ?? "None")
-                @if (Model.PhoneNumber != null)
-                {
-                    <br />
-                    <text>[&nbsp;&nbsp;@Html.ActionLink("Change", "AddPhoneNumber")&nbsp;&nbsp;]</text>
-                    using (Html.BeginForm("RemovePhoneNumber", "Manage", FormMethod.Post, new { role = "form" }))
+                <dt>Phone Number:</dt>
+                <dd>
+                    @(Model.PhoneNumber ?? "None")
+                    @if (Model.PhoneNumber != null)
                     {
-                        @Html.AntiForgeryToken()
-                        <text>[<input type="submit" value="Remove" class="btn-link" />]</text>
+                        <br />
+                        <text>[&nbsp;&nbsp;@Html.ActionLink("Change", "AddPhoneNumber")&nbsp;&nbsp;]</text>
+                        using (Html.BeginForm("RemovePhoneNumber", "Manage", FormMethod.Post, new { role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <text>[<input type="submit" value="Remove" class="btn-link" />]</text>
+                        }
                     }
-                }
-                else
-                {
-                    <text>[&nbsp;&nbsp;@Html.ActionLink("Add", "AddPhoneNumber")
-                }
-            </dd>
+                    else
+                    {
+                        <text>[&nbsp;&nbsp;@Html.ActionLink("Add", "AddPhoneNumber")
+                    }
+                </dd>
             *@
             <dt>Two-Factor Authentication:</dt>
             <dd>
@@ -64,30 +64,30 @@
                     for details on setting up this ASP.NET application to support two-factor authentication.
                 </p>
                 @*@if (Model.TwoFactor)
-                {
-                    using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { role = "form" }))
                     {
-                        @Html.AntiForgeryToken()
-                        <text>Enabled
-                        <input type="submit" value="Disable" class="btn btn-link" />
-                        </text>
+                        using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <text>Enabled
+                            <input type="submit" value="Disable" class="btn btn-link" />
+                            </text>
+                        }
                     }
-                }
-                else
-                {
-                    using (Html.BeginForm("EnableTwoFactorAuthentication", "Manage", FormMethod.Post, new { role = "form" }))
+                    else
                     {
-                        @Html.AntiForgeryToken()
-                        <text>Disabled
-                        <input type="submit" value="Enable" class="btn btn-link" />
-                        </text>
-                    }
-                }*@
+                        using (Html.BeginForm("EnableTwoFactorAuthentication", "Manage", FormMethod.Post, new { role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <text>Disabled
+                            <input type="submit" value="Enable" class="btn btn-link" />
+                            </text>
+                        }
+                    }*@
             </dd>
         </dl>
         <h3>Your Appointments</h3>
 
-        <table class="table">
+        <table id="appointmentsTable" class="display table">
             <thead>
                 <tr>
                     <th>Psychologist</th>
@@ -119,12 +119,12 @@
                             {
                                 <span>Rated: @item.RatingScore</span>
                             }
-                            @Html.ActionLink("Details", "Details", "Appointments", new { id = item.Id }, null) 
+                            @Html.ActionLink("Details", "Details", "Appointments", new { id = item.Id }, null)
 
                             @* 仅在预约时间未到时才显示 Edit 链接 *@
                             @if (item.AppointmentDate > DateTime.Now)
                             {
-                                @Html.ActionLink("Edit", "Edit", "Appointments", new { id = item.Id }, null) 
+                                @Html.ActionLink("Edit", "Edit", "Appointments", new { id = item.Id }, null)
                             }
                             @Html.ActionLink("Delete", "Delete", "Appointments", new { id = item.Id }, null)
                         </td>
@@ -134,3 +134,14 @@
         </table>
     </div>
 </main>
+@section Scripts {
+    <script>$(document).ready(function () {
+            // 初始化DataTable
+            $('#appointmentsTable').DataTable({
+                "pageLength": 10,   // 设置每页显示10行
+                "ordering": true,   // 启用列排序
+                "searching": true,  // 启用搜索功能
+                "lengthChange": false // 禁用用户更改每页行数的选项
+            });
+        });</script>
+}

@@ -9,7 +9,7 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
+<table id="appointmentsTable" class="display">
     <thead>
         <tr>
             <th>Psychologist</th>
@@ -54,3 +54,16 @@
         }
     </tbody>
 </table>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // 初始化DataTable
+            $('#appointmentsTable').DataTable({
+                "pageLength": 10,   // 设置每页显示10行
+                "ordering": true,   // 启用列排序
+                "searching": true,  // 启用搜索功能
+                "lengthChange": false // 禁用用户更改每页行数的选项
+            });
+        });
+    </script>
+}
