@@ -225,13 +225,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202408031639038_InitialCreate.cs" />
-    <Compile Include="Migrations\202408031639038_InitialCreate.Designer.cs">
-      <DependentUpon>202408031639038_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202408031640131_UpdateDatabaseSchema.cs" />
-    <Compile Include="Migrations\202408031640131_UpdateDatabaseSchema.Designer.cs">
-      <DependentUpon>202408031640131_UpdateDatabaseSchema.cs</DependentUpon>
+    <Compile Include="Migrations\202408160743463_UpdateDatabaseSchema.cs" />
+    <Compile Include="Migrations\202408160743463_UpdateDatabaseSchema.Designer.cs">
+      <DependentUpon>202408160743463_UpdateDatabaseSchema.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -362,11 +358,8 @@
     <Content Include="Scripts\bootstrap.bundle.js.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202408031639038_InitialCreate.resx">
-      <DependentUpon>202408031639038_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202408031640131_UpdateDatabaseSchema.resx">
-      <DependentUpon>202408031640131_UpdateDatabaseSchema.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202408160743463_UpdateDatabaseSchema.resx">
+      <DependentUpon>202408160743463_UpdateDatabaseSchema.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

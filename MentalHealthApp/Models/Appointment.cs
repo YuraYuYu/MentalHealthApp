@@ -32,6 +32,8 @@ namespace MentalHealthApp.Models
 
         [Range(0, 5)]
         public double? RatingScore { get; set; }
+        public string CaseFilePath { get; set; }
+
 
 
     }

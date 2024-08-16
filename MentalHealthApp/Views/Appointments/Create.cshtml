@@ -6,7 +6,7 @@
 
 <h2>Create</h2>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Create", "Appointments", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
@@ -17,7 +17,7 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.PsychologistId, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-md-4">
                 @Html.DropDownListFor(model => model.PsychologistId, Model.Psychologists, "Select Psychologist", new { @class = "form-control", id = "psychologistDropdown" })
                 @Html.ValidationMessageFor(model => model.PsychologistId, "", new { @class = "text-danger" })
             </div>
@@ -27,12 +27,20 @@
 
         <div class="form-group">
             <label class="control-label col-md-2">User</label>
-            <div class="col-md-10">
+            <div class="col-md-4">
                 <input type="text" class="form-control" value="@User.Identity.Name" readonly />
             </div>
         </div>
 
         <div class="form-group">
+            <label class="control-label col-md-2">Upload Case File</label>
+            <div class="col-md-10">
+                <input type="file" name="CaseFile" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Appointment Date</label>
             <div class="col-md-offset-2 col-md-10">
                 <input type="hidden" id="appointmentDate" name="AppointmentDate" />
                 <table class="table table-bordered">

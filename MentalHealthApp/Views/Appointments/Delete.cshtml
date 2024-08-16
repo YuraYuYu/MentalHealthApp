@@ -20,6 +20,24 @@
         <dt>Date</dt>
         <dd>@Model.AppointmentDate</dd>
     </dl>
+    <div class="form-group">
+        <dl class="dl-horizontal">
+            <dt>
+                Current Case File
+            </dt>
+            <dd>
+                @if (!string.IsNullOrEmpty(Model.CaseFilePath))
+                {
+                    <a href="@Url.Content(Model.CaseFilePath)" target="_blank">Download File</a>
+                }
+                else
+                {
+                    <p>No file uploaded.</p>
+                }
+            </dd>
+        </dl>
+    </div>
+
 
     @using (Html.BeginForm())
     {

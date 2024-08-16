@@ -21,19 +21,19 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>@item.Psychologist.FirstName @item.Psychologist.LastName</td>
+                <td>@item.Psychologist.FullName</td>
                 <td>@item.AppointmentDate</td>
                 <td>
                     @if (item.CanRate)
                     {
-                        using (Html.BeginForm("Rate", "Appointments"))
+                        using (Html.BeginForm("Rate", "Manage"))
                         {
                             @Html.AntiForgeryToken()
                             @Html.Hidden("appointmentId", item.Id)
-                    <div class="form-group">
-                        @Html.Label("Score")
-                        @Html.TextBox("score", null, new { @class = "form-control", type = "number", min = "0", max = "5", step = "0.1", @oninvalid = "this.setCustomValidity('The score must be between 0 and 5, with a maximum of one decimal place.')", @oninput = "this.setCustomValidity('')" })
-                    </div>
+                            <div class="form-group">
+                                @Html.Label("Score")
+                                @Html.TextBox("score", null, new { @class = "form-control col-md-4", type = "number", min = "0", max = "5", step = "0.1", required = "required", @oninvalid = "this.setCustomValidity('The score must be between 0 and 5, with a maximum of one decimal place.')", @oninput = "this.setCustomValidity('')" })
+                            </div>
                             <button type="submit" class="btn btn-primary">Submit Rating</button>
                         }
                     }
@@ -41,8 +41,14 @@
                     {
                         <span>Rated: @item.RatingScore</span>
                     }
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    @Html.ActionLink("Details", "Details", "Appointments", new { id = item.Id }, null)
+
+                    @* 仅在预约时间未到时才显示 Edit 链接 *@
+                    @if (item.AppointmentDate > DateTime.Now)
+                    {
+                        @Html.ActionLink("Edit", "Edit", "Appointments", new { id = item.Id }, null)
+                    }
+                    @Html.ActionLink("Delete", "Delete", "Appointments", new { id = item.Id }, null)
                 </td>
             </tr>
         }

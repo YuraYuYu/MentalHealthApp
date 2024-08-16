@@ -1,0 +1,17 @@
+FIT5032 Studio 6 Instructions
+
+1. Load MyDatePicker into Visual Studio.
+
+2. In Solution Explorer, create a new 'Uploads' folder under MyDatePicker.
+
+3. Go to Controllers -> HealthCareAppointmentsController.cs. Replace the CreateAppointment() function with the code in Studio 6/Email.cs.
+
+4. In your browser, go to www.outlook.com. Apply for a new email account. This email account will expire in 7 days if you do not verify the account using a mobile phone number, and you can apply a new one after 7 days.
+
+5. In the CreateAppointment() function, replace the two email addresses and password with the new outlook email addresses and password.
+
+6. Go to Views -> HealthCareAppointment -> Create.cshtml. Replace the code with the code in Studio 6/Email.cshtml.
+
+7. Go to Views -> HealthCareAppointment -> Create.cshtml. Run this web page on your browser. Use the web page to send an email to your Gmail, with Studio 6/medical-history.png as an attachment.
+
+8. Create a screenshot showing that your Gmail inbox has received the email with the attachment. Submit the screenshot to Moodle.

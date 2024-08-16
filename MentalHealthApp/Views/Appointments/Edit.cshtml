@@ -4,46 +4,65 @@
     ViewBag.Title = "Edit Appointment";
 }
 
-<h2>Edit</h2>
+<h2>Edit Appointment</h2>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
-<div class="form-horizontal">
-    <h4>Appointment</h4>
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-horizontal">
+        <h4>Appointment</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-    @Html.HiddenFor(model => model.Id)
-    @Html.HiddenFor(model => model.UserId)
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.UserId)
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.PsychologistId, "Psychologist", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownList("PsychologistId", new SelectList(Model.Psychologists, "Value", "Text", Model.PsychologistId), htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.PsychologistId, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.PsychologistId, "Psychologist", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.TextBox("PsychologistName", Model.Psychologists.FirstOrDefault(p => p.Value == Model.PsychologistId.ToString())?.Text, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AppointmentDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.TextBoxFor(model => model.AppointmentDate, "{0:yyyy-MM-dd HH:mm}", new { @class = "form-control", @readonly = "readonly" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Current Case File", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @if (!string.IsNullOrEmpty(Model.CaseFilePath))
+                {
+                    <a href="@Url.Content(Model.CaseFilePath)" target="_blank">Download Current File</a>
+                }
+                else
+                {
+                    <p>No file uploaded.</p>
+                }
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CaseFile, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                <input type="file" name="caseFile" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
         </div>
     </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.AppointmentDate, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.AppointmentDate, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.AppointmentDate, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Save" class="btn btn-default" />
-        </div>
-    </div>
-</div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Index", "Manage")
 </div>
 
 @section Scripts {

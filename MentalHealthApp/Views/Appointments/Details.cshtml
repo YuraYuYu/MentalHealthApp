@@ -18,6 +18,17 @@
 
         <dt>Date</dt>
         <dd>@Model.AppointmentDate</dd>
+        <dt>Attached Case File</dt>
+        <dd>
+            @if (!string.IsNullOrEmpty(Model.CaseFilePath))
+            {
+                <a href="@Url.Content(Model.CaseFilePath)" download>Download Case File</a>
+            }
+            else
+            {
+                <span>No file attached</span>
+            }
+        </dd>
     </dl>
 </div>
 <p>

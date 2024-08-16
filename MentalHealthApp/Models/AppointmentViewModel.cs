@@ -25,6 +25,16 @@ namespace MentalHealthApp.Models
         [Required]
         [Display(Name = "Appointment Date")]
         public DateTime AppointmentDate { get; set; }
+        public HttpPostedFileBase CaseFile { get; set; }
+        public string CaseFilePath { get; set; }
+        public bool CanEdit
+        {
+            get
+            {
+                return AppointmentDate > DateTime.Now;
+            }
+        }
+
 
         public List<TimeSlotViewModel> AvailableTimeSlots { get; set; }
 
