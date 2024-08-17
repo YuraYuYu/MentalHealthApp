@@ -6,7 +6,7 @@
     <img src="~/uploads/activity.jpg" alt="Knowledge Park Banner" class="knowledge-park-image" />
 </div>
 
-<div class="container">
+<div class="container" style="margin-bottom: 35px;">
     <h1>Welcome to the Activity Center</h1>
     <p>Discover a diverse range of engaging and enriching activities designed to support your mental health and well-being. Our Activity Center offers workshops, classes, and events that provide practical tools and strategies for managing stress, building resilience, and enhancing your overall mental wellness. Whether you’re interested in mindfulness practices, creative therapies, or physical activities, there’s something here for everyone. Join us to connect with a supportive community and embark on your journey towards a healthier, happier you. Explore our offerings and find the perfect activity to nurture your mind and spirit today.</p>
 
@@ -44,12 +44,200 @@
             </div>
         </div>
     </div>
-</div> 
+</div>
 
+<div class="container">
+    <h1 id="feature-title">Activity Center</h1>
+    <p id="feature-description">Search for activity locations and navigate easily.</p>
 
-@section Scripts {
-    <script src="~/Scripts/custom.js"></script>
-}
+    <!-- 功能切换按钮 -->
+    <div class="btn-group mb-6" role="group" aria-label="Feature Toggle">
+        <button class="btn btn-primary" type="button" id="search-mode-button">Search Mode</button>
+        <button class="btn btn-secondary" type="button" id="navigation-mode-button">Navigation Mode</button>
+    </div>
+
+    <!-- 搜索视图 -->
+    <div id="search-view">
+        <div class="input-group mb-6=5" style="max-width: 500px; padding-top: 15px; padding-bottom: 15px;">
+            <input type="text" id="locationInput" class="form-control" placeholder="Enter location" aria-label="Location" aria-describedby="search-button">
+            <button class="btn btn-primary" style="width:50%" type="button" id="search-button">Search</button>
+        </div>
+    </div>
+
+    <!-- 导航视图（初始隐藏） -->
+    <div id="navigation-view" style="display: none; padding-top: 15px; padding-bottom: 15px;">
+        <div class="input-group mb-10" style="max-width: 800px;">
+            <input type="text" id="originInput" class="form-control" placeholder="Enter origin" aria-label="Origin" aria-describedby="search-route-button">
+            <input type="text" id="destinationInput" class="form-control" placeholder="Enter destination" aria-label="Destination" aria-describedby="search-route-button">
+            <button class="btn btn-primary" style="width:25%" type="button" id="search-route-button">Search Route</button>
+        </div>
+    </div>
+
+    <!-- 地图容器 -->
+    <div id="map-container" style="height: 500px; width: 100%; "></div>
+</div>
+
+<!-- 引入高德地图JS API -->
+<script src="https://webapi.amap.com/maps?v=2.0&key=faf63cc8100fcdfd89e3c5fbd2e9b38c"></script>
+
+<script type="text/javascript">
+    var map = new AMap.Map('map-container', {
+        zoom: 10,
+        center: [116.397428, 39.90923] // 初始中心点为北京
+    });
+
+    var currentPolyline = null; // 保存当前显示的路线
+    var currentMarker = null; // 保存当前的地图标记
+
+    // 功能视图切换
+    document.getElementById('search-mode-button').onclick = function () {
+        document.getElementById('feature-title').textContent = 'Activity Center';
+        document.getElementById('feature-description').textContent = 'Search for activity locations and navigate easily.';
+        document.getElementById('search-view').style.display = 'block';
+        document.getElementById('navigation-view').style.display = 'none';
+        clearMap(); // 切换到搜索模式时清除地图上的内容
+    };
+
+    document.getElementById('navigation-mode-button').onclick = function () {
+        document.getElementById('feature-title').textContent = 'Activity Navigation';
+        document.getElementById('feature-description').textContent = 'Plan your route from start to destination.';
+        document.getElementById('search-view').style.display = 'none';
+        document.getElementById('navigation-view').style.display = 'block';
+        clearMap(); // 切换到导航模式时清除地图上的内容
+    };
+
+    // 清除地图上的标记和路线
+    function clearMap() {
+        if (currentPolyline) {
+            currentPolyline.setMap(null);
+            currentPolyline = null;
+        }
+        if (currentMarker) {
+            currentMarker.setMap(null);
+            currentMarker = null;
+        }
+    }
+
+    // 搜索功能实现
+    document.getElementById('search-button').onclick = function () {
+        clearMap(); // 清除之前的标记
+
+        var keyword = document.getElementById('locationInput').value;
+        if (!keyword) {
+            alert("Please enter a location keyword");
+            return;
+        }
+
+        var xhr = new XMLHttpRequest();
+        var url = `https://restapi.amap.com/v3/place/text?key=c1ab1020ee7ce53e6485c296df8cdbf9&keywords=${encodeURIComponent(keyword)}&extensions=all`;
+
+        xhr.open('GET', url, true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var result = JSON.parse(xhr.responseText);
+                if (result.status === "1" && result.pois && result.pois.length > 0) {
+                    var poi = result.pois[0];
+                    var location = poi.location.split(',');
+                    var lng = parseFloat(location[0]);
+                    var lat = parseFloat(location[1]);
+
+                    map.setZoomAndCenter(15, [lng, lat]);
+                    currentMarker = new AMap.Marker({
+                        position: [lng, lat],
+                        map: map
+                    });
+                } else {
+                    alert("No results found");
+                }
+            }
+        };
+        xhr.send();
+    };
+
+    // 导航功能实现
+    document.getElementById('search-route-button').onclick = function () {
+        clearMap(); // 清除之前的路线
+
+        var originKeyword = document.getElementById('originInput').value;
+        var destinationKeyword = document.getElementById('destinationInput').value;
+
+        if (!originKeyword || !destinationKeyword) {
+            alert("Please enter both origin and destination");
+            return;
+        }
+
+        function getCoordinates(keyword, callback) {
+            var xhr = new XMLHttpRequest();
+            var url = `https://restapi.amap.com/v3/place/text?key=c1ab1020ee7ce53e6485c296df8cdbf9&keywords=${encodeURIComponent(keyword)}&extensions=all`;
+
+            xhr.open('GET', url, true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var result = JSON.parse(xhr.responseText);
+                    if (result.status === "1" && result.pois && result.pois.length > 0) {
+                        var location = result.pois[0].location.split(',');
+                        var lng = parseFloat(location[0]);
+                        var lat = parseFloat(location[1]);
+                        callback([lng, lat]);
+                    } else {
+                        callback(null);
+                    }
+                }
+            };
+            xhr.send();
+        }
+
+        getCoordinates(originKeyword, function (originCoords) {
+            if (!originCoords) {
+                alert("No origin found");
+                return;
+            }
+
+            getCoordinates(destinationKeyword, function (destinationCoords) {
+                if (!destinationCoords) {
+                    alert("No destination found");
+                    return;
+                }
+
+                var xhr = new XMLHttpRequest();
+                var url = `https://restapi.amap.com/v3/direction/driving?key=c1ab1020ee7ce53e6485c296df8cdbf9&origin=${originCoords[0]},${originCoords[1]}&destination=${destinationCoords[0]},${destinationCoords[1]}&extensions=all&strategy=0`;
+
+                xhr.open('GET', url, true);
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        var result = JSON.parse(xhr.responseText);
+
+                        if (result.status === "1" && result.route && result.route.paths && result.route.paths.length > 0) {
+                            var path = result.route.paths[0];
+                            var routeArr = [];
+
+                            for (var i = 0; i < path.steps.length; i++) {
+                                var steps = path.steps[i].polyline.split(';');
+                                for (var j = 0; j < steps.length; j++) {
+                                    var lnglat = steps[j].split(',');
+                                    routeArr.push([parseFloat(lnglat[0]), parseFloat(lnglat[1])]);
+                                }
+                            }
+
+                            currentPolyline = new AMap.Polyline({
+                                path: routeArr,
+                                borderWeight: 2,
+                                strokeColor: 'blue',
+                                lineJoin: 'round'
+                            });
+
+                            map.add(currentPolyline);
+                            map.setFitView(); // 调整视野以适应路线
+                        } else {
+                            alert("No route found");
+                        }
+                    }
+                };
+                xhr.send();
+            });
+        });
+    };
+</script>
 
 <style>
     .article-link {
