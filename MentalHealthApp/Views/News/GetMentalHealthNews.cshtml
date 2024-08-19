@@ -1,0 +1,29 @@
+﻿@model List<MentalHealthApp.Models.NewsArticle>
+@{
+    Layout = null;
+}
+<div class="container">
+    <h2>Latest Mental Health News</h2>
+    <div class="row">
+        @if (Model != null && Model.Any())
+        {
+            foreach (var article in Model)
+            {
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        <img src="@article.UrlToImage" class="card-img-top" alt="News Image">
+                        <div class="card-body">
+                            <h5 class="card-title">@article.Title</h5>
+                            <p class="card-text">@article.Description</p>
+                            <a href="@article.Url" class="btn btn-primary" target="_blank">Read more</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <p>No news articles available at the moment.</p>
+        }
+    </div>
+</div>
