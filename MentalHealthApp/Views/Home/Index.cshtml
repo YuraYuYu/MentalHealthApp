@@ -6,7 +6,7 @@
     <img src="~/uploads/首页2.jpg" alt="Homepage Image" class="knowledge-park-image" />
 </div>
 
-<div class="container" style="margin-bottom: 30px;">
+<div class="container">
     <div class="col-md-12">
         <h2>Welcome to Our Mental Health Platform</h2>
         <p>Here, you can find resources and support to improve your mental well-being.</p>
@@ -20,7 +20,7 @@
                     <p class="card-text">Discover engaging activities designed to support your mental health and well-being.</p>
                     <img src="~/uploads/图片ack.png" alt="Activity Center Image" class="card-img mx-auto mb-3" style="max-height: 150px; object-fit: contain;" />
                     <div class="mt-auto">
-                        <a href="@Url.Action("About", "Home")" class="btn btn-primary mt-3">Explore Activities</a>
+                        <a href="@Url.Action("About", "Home")" class="btn btn-primary mt-3 activity-btn">Explore Activities</a>
                     </div>
                 </div>
             </div>
@@ -32,7 +32,7 @@
                     <p class="card-text">Find professional psychologists to help you navigate your mental health journey.</p>
                     <img src="~/uploads/图片p.png" alt="Psychologists Image" class="card-img mx-auto mb-3" style="max-height: 150px; object-fit: contain;" />
                     <div class="mt-auto">
-                        <a href="@Url.Action("Index", "Psychologists")" class="btn btn-primary mt-3">Find Psychologists</a>
+                        <a href="@Url.Action("Index", "Psychologists")" class="btn btn-primary mt-3 activity-btn">Find Psychologists</a>
                     </div>
                 </div>
             </div>
@@ -44,77 +44,60 @@
                     <p class="card-text">Access various mental health resources and self-care techniques.</p>
                     <img src="~/uploads/图片kn.png" alt="Knowledge Park Image" class="card-img mx-auto mb-3" style="max-height: 150px; object-fit: contain;" />
                     <div class="mt-auto">
-                        <a href="@Url.Action("Contact", "Home")" class="btn btn-primary mt-3">Visit Knowledge Park</a>
+                        <a href="@Url.Action("Contact", "Home")" class="btn btn-primary mt-3 activity-btn">Visit Knowledge Park</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<!-- AI Chatbot Section -->
-<div class="container" style="padding-top: 30px;">
-    <div id="chat-hint">Click on the icon below to chat with us!</div>
-    <div style="text-align: center; padding-top: 30px;">
-        <iframe src="https://bottr.me/ya-yu-1" width="1000" height="600" frameborder="0"></iframe>
-    </div>
-</div>
 
-    <style>
-        .card {
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
+<style>
+    .card {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+
+    .card-img {
+        border-radius: 10px;
+        max-height: 200px;
+        object-fit: cover;
+        margin-bottom: 20px;
+        width: 100%; /* 保持图片宽度一致 */
+    }
+
+    .card-title {
+        font-size: 1.5em;
+        margin-bottom: 10px;
+    }
+
+    .card-text {
+        font-size: 1em;
+        margin-bottom: 20px;
+    }
+
+    .btn-primary {
+        background-color: #4F89C7;
+        border-color: #4F89C7;
+        border-radius: 50px;
+        padding: 10px 20px;
+        font-size: 1em;
+        width: 80%; /* 使按钮宽度固定为父容器的80% */
+        max-width: 250px; /* 设置按钮的最大宽度 */
+        margin: 0 auto; /* 居中对齐 */
+    }
+
+        .btn-primary:hover {
+            background-color: #3b70a3;
+            border-color: #3b70a3;
         }
 
-        .card-img {
-            border-radius: 10px;
-            max-height: 200px;
-            object-fit: cover;
-            margin-bottom: 20px;
-            width: 100%; /* 保持图片宽度一致 */
-        }
-
-        .card-title {
-            font-size: 1.5em;
-            margin-bottom: 10px;
-        }
-
-        .card-text {
-            font-size: 1em;
-            margin-bottom: 20px;
-        }
-
-        .btn-primary {
-            background-color: #4F89C7;
-            border-color: #4F89C7;
-            border-radius: 20px;
-            padding: 10px 20px;
-            font-size: 1em;
-        }
-
-            .btn-primary:hover {
-                background-color: #3b70a3;
-                border-color: #3b70a3;
-            }
-
-        .card-body {
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-        }
-        /* 提示文本样式 */
-        #chat-hint {
-            bottom: 110px;
-            right: 100px;
-            background-color: #4F89C7;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            font-size: 16px;
-            z-index: 1000;
-            animation: fadeIn 2s ease-in-out, blink 1.5s infinite;
-        }
-    </style>
+    .card-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+    }
+</style>
