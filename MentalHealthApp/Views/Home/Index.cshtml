@@ -6,7 +6,7 @@
     <img src="~/uploads/首页2.jpg" alt="Homepage Image" class="knowledge-park-image" />
 </div>
 
-<div class="container">
+<div class="container" style="margin-bottom: 30px;">
     <div class="col-md-12">
         <h2>Welcome to Our Mental Health Platform</h2>
         <p>Here, you can find resources and support to improve your mental well-being.</p>
@@ -51,7 +51,18 @@
         </div>
     </div>
 </div>
-
+<!-- AI Chatbot Section -->
+<div class="container" style="padding-top: 30px;">
+    <div id="chat-hint">Click on the icon below to chat with us!</div>
+    <div style="text-align: center; padding-top: 30px;">
+        <iframe src="https://bottr.me/ya-yu-1" width="1000" height="600" frameborder="0"></iframe>
+    </div>
+    <div style="text-align: center; padding-top: 20px;">
+        <a href="@Url.Action("Index", "Chat")" class="btn btn-primary" style="display: inline-block; padding: 10px 20px; font-size: 16px; border-radius: 50px; background-color: #4F89C7; border-color: #4F89C7; max-width: 700px;">
+            Or you can click here to jump to another Gemini Chat Assistant conversation interface
+        </a>
+    </div>
+</div>
 <style>
     .card {
         background-color: #ffffff;
@@ -99,5 +110,16 @@
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
+    }
+    /* 提示文本样式 */
+    #chat-hint {
+        background-color: #4F89C7;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-size: 16px;
+        text-align: center;
+        margin-bottom: 15px;
+        animation: fadeIn 2s ease-in-out, blink 1.5s infinite;
     }
 </style>

@@ -1,0 +1,112 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        #chatContainer {
+            width: 90%;
+            max-width: 600px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        #chatBox {
+            overflow-y: auto;
+            height: 400px;
+            padding: 20px;
+            border-bottom: 1px solid #ddd;
+            background-color: #fafafa;
+        }
+
+            #chatBox div {
+                margin-bottom: 15px;
+            }
+
+        #userInputSection {
+            display: flex;
+            padding: 15px;
+            background-color: #ffffff;
+        }
+
+        #userInput {
+            flex: 1;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        #sendBtn {
+            background-color: #4F89C7;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin-left: 10px;
+            font-size: 16px;
+            border-radius: 50px;
+            cursor: pointer;
+            width: 80%; /* Ensuring button width is consistent */
+            max-width: 150px;
+            align-self: center; /* Centering the button */
+        }
+
+            #sendBtn:hover {
+                background-color: #3b70a3;
+                border-color: #3b70a3;
+            }
+
+        h2 {
+            font-size: 1.5em;
+            color: #4F89C7;
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="chatContainer">
+        <h2>Chat Assistant</h2>
+        <div id="chatBox">
+            <!-- Display messages -->
+        </div>
+
+        <div id="userInputSection">
+            <input type="text" id="userInput" placeholder="Type your message..." />
+            <button id="sendBtn">Send</button>
+        </div>
+    </div>
+
+    <!-- Using importmap to include external modules -->
+    <script type="importmap">
+        {
+            "imports": {
+                "@@google/generative-ai": "https://esm.run/@@google/generative-ai"
+            }
+        }
+    </script>
+
+    <!-- Load chat.js file -->
+    <script type="module" src="@Url.Content("~/Scripts/chat.js")"></script>
+
+</body>
+</html>

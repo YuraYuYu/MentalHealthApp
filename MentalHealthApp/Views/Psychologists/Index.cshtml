@@ -64,11 +64,14 @@
     </table>
 
     <div class="row justify-content-center align-items-center">
-        <div class="col-md-5">
+        <div class="col-md-4">
             <canvas id="appointmentsChart"></canvas>
         </div>
-        <div class="col-md-5" style="padding: 20px;">
+        <div class="col-md-4" style="padding: 20px;">
             <img src="~/uploads/chart.jpg" alt="Chart Image" class="img-fluid rounded-image" />
+        </div>
+        <div class="col-md-4" style="padding: 20px;">
+            <canvas id="appointmentsBarChart"></canvas>
         </div>
     </div>
 }
@@ -124,7 +127,7 @@ else
 @section Scripts {
     <script src="~/Scripts/jquery-3.7.1.min.js"></script>
     <script>
-        $(function () { 
+        $(function () {
             $('#button-search').on('click', function () {
                 var searchTerm = $('#searchInput').val().toLowerCase();
                 $('.psychologist-card').each(function () {
@@ -142,79 +145,117 @@ else
     </script>
     <script src="~/Scripts/Chart.min.js"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            console.log("Chart.js loaded successfully");
+    document.addEventListener("DOMContentLoaded", function () {
+        console.log("Chart.js loaded successfully");
 
-            var ctx = document.getElementById('appointmentsChart').getContext('2d');
+        var ctxPie = document.getElementById('appointmentsChart').getContext('2d');
+        var ctxBar = document.getElementById('appointmentsBarChart').getContext('2d');
 
-            var appointmentCounts = @Html.Raw(appointmentCountsJson);
-            var psychologists = @Html.Raw(psychologistsJson);
+        var appointmentCounts = @Html.Raw(appointmentCountsJson);
+        var psychologists = @Html.Raw(psychologistsJson);
 
-            var labels = [];
-            var data = [];
+        var labels = [];
+        var data = [];
 
-            appointmentCounts.forEach(function (item) {
-                var psychologist = psychologists.find(p => p.Id === item.PsychologistId);
-                if (psychologist) {
-                    labels.push(psychologist.FirstName + " " + psychologist.LastName);
-                    data.push(item.Count);
-                }
-            });
+        appointmentCounts.forEach(function (item) {
+            var psychologist = psychologists.find(p => p.Id === item.PsychologistId);
+            if (psychologist) {
+                labels.push(psychologist.FirstName + " " + psychologist.LastName);
+                data.push(item.Count);
+            }
+        });
 
-            var chartData = {
-                labels: labels,
-                datasets: [{
-                    data: data,
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            };
+        var chartData = {
+            labels: labels,
+            datasets: [{
+                data: data,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        };
 
-            var options = {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                        labels: {
-                            font: {
-                                size: 16, // 设置图例字体大小
-                                family: 'Arial, sans-serif', // 设置图例字体
-                            }
+        var optionsPie = {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                    labels: {
+                        font: {
+                            size: 16, // 设置图例字体大小
+                            family: 'Arial, sans-serif', // 设置图例字体
                         }
-                    },
+                    }
+                },
+                title: {
+                    display: true,
+                    text: 'Psychologist Appointments',
+                    font: {
+                        size: 18, // 设置标题字体大小
+                        family: 'Arial, sans-serif', // 设置标题字体
+                    }
+                }
+            }
+        };
+
+        var optionsBar = {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false,
+                },
+                title: {
+                    display: true,
+                    text: 'Appointment Distribution',
+                    font: {
+                        size: 18,
+                        family: 'Arial, sans-serif',
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
                     title: {
                         display: true,
-                        text: 'Psychologist Appointments',
+                        text: 'Number of Appointments',
                         font: {
-                            size: 18, // 设置标题字体大小
-                            family: 'Arial, sans-serif', // 设置标题字体
+                            size: 16,
+                            family: 'Arial, sans-serif',
                         }
                     }
                 }
-            };
+            }
+        };
 
-            var appointmentsChart = new Chart(ctx, {
-                type: 'pie',
-                data: chartData,
-                options: options
-            });
+        var appointmentsChart = new Chart(ctxPie, {
+            type: 'pie',
+            data: chartData,
+            options: optionsPie
         });
+
+        var appointmentsBarChart = new Chart(ctxBar, {
+            type: 'bar',
+            data: chartData,
+            options: optionsBar
+        });
+    });
     </script>
+
 }
 
 <style>
@@ -227,13 +268,14 @@ else
         padding: 6px 12px; /* 调整按钮的内边距 */
         width: 25%; /* 让按钮占满它所在的容器宽度 */
     }
-    
-    /* 鼠标悬停时改变按钮样式 */
-    .search-button:hover {
-        background-color: #6c757d; /* 悬停时背景颜色变为灰色 */
-        color: #ffffff; /* 文字颜色变为白色 */
-        border-color: #6c757d; /* 边框颜色变为灰色 */
-    }
+
+        /* 鼠标悬停时改变按钮样式 */
+        .search-button:hover {
+            background-color: #6c757d; /* 悬停时背景颜色变为灰色 */
+            color: #ffffff; /* 文字颜色变为白色 */
+            border-color: #6c757d; /* 边框颜色变为灰色 */
+        }
+
     .card-title {
         font-weight: bold; /* 加粗字体 */
     }
